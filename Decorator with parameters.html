@@ -117,7 +117,7 @@
 <p>-------------------</p>
 <h3>A decorator without argument(s)</h3>
 <p>Let's first look at doing a decorator without input arguments as a reference. It's usually done by creating a decorator function, with a function as an input parameter. So the function you decorate will be the input to the decorator function. </p>
-<p>Then a wrapper function is created within the decorator function that does some some work. The decorator function then returns the wrapper function with some modified functionality as in the following example. Here I've put the incoming function into the result variable, and returning an f-string with the that variable included.</p>
+<p>Then a wrapper function is created within the decorator function that does some some work. The decorator function then returns the wrapper function with some modified functionality as in the following example. Here I've put the incoming function into the result variable, and returning an f-string with that variable included.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -135,14 +135,15 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>Adding some text in the decorator
-Hello, World!
+<p>This produces the following output:</p>
+<div class="highlight"><pre><span></span><span class="n">Adding</span> <span class="n">some</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">decorator</span>
+<span class="n">Hello</span><span class="p">,</span> <span class="n">World</span><span class="err">!</span>
 </pre></div>
 
 
 <h3>A decorator with an argument</h3>
 <p>But what if we didn't want to hard code, in this case, what text is added to the output, but rather control that by adding a parameter to the decorator? Well, for me that was very hard to understand how to do at first, and it took me some googling and brainwork to get the hang of it all.</p>
-<p>We already have a function within a function to do what we already did in the previous example. Now we also need a function, within a function, within a function. Coming from languages as <code>C#</code> and <code>PowerShell</code>, I'd never seen this before. Maybe it exists in those languages as well, but it is all new to me. But after some time I think I got it. So the decorator function would look like this.</p>
+<p>We already have a function within a function to do what we already did in the previous example. Now we also need a function, within a function, within a function. Coming from languages as <code>C#</code> and <code>PowerShell</code>, I'd never seen this before. Maybe it exists in those languages as well, but it is all new to me. So the decorator function would look like this.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">input_arg</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">the_real_decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
@@ -175,7 +176,10 @@ Hello, World!
 <h3>Conclusion</h3>
 <p>I hope that in this article, I've managed to explain in a simple way, how you can use parameter(s) with your decorator functions in Python. </p>
 <h3>Resources</h3>
-<p>One of the good articles I read trying to learn this concept you'll find at: <a href="https://realpython.com/primer-on-python-decorators/">Primer on Python Decorators - Real Python</a>. Also I watched this talk on YouTube from PyCon 2019 in my quest to learn this concept: <a href="https://youtu.be/MjHpMCIvwsY">Reuven M. Lerner - Practical decorators - PyCon 2019</a>.</p>
+<ul>
+<li><a href="https://realpython.com/primer-on-python-decorators/">Primer on Python Decorators - Real Python</a></li>
+<li><a href="https://youtu.be/MjHpMCIvwsY">Reuven M. Lerner - Practical decorators - PyCon 2019</a> (YouTube video)</li>
+</ul>
 <p>Let me know on Twitter if I can improve this article, or if you have other resource to help out in understanding this.</p>
   </div>
   <div class="tag-cloud">
