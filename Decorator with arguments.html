@@ -27,10 +27,10 @@
 <meta name="keywords" content="Python, Pieces of Py">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
-<meta property="og:title" content="Pieces of Py #1: Decorator with parameters"/>
+<meta property="og:title" content="Pieces of Py #1: Decorator with arguments"/>
 <meta property="og:description" content="How to create a decorator function in Python that will accept argument(s)"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://joeriksson.github.io/Decorator with parameters.html"/>
+<meta property="og:url" content="https://joeriksson.github.io/Decorator with arguments.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2019-07-09 21:49:00+02:00"/>
 <meta property="article:modified_time" content=""/>
@@ -40,7 +40,7 @@
 <meta property="article:tag" content="Pieces of Py"/>
 <meta property="og:image" content="/images/logo.jpg">
 
-  <title>J-O Eriksson's blog &ndash; Pieces of Py #1: Decorator with parameters</title>
+  <title>J-O Eriksson's blog &ndash; Pieces of Py #1: Decorator with arguments</title>
 
 </head>
 <body>
@@ -85,7 +85,7 @@
 <article class="single">
   <header>
       
-    <h1 id="Decorator with parameters">Pieces of Py #1: Decorator with parameters</h1>
+    <h1 id="Decorator with arguments">Pieces of Py #1: Decorator with arguments</h1>
     <p>
           Posted on Tue 09 July 2019 21:49 in <a href="https://joeriksson.github.io/category/python.html">Python</a>
 
@@ -95,7 +95,7 @@
 
 
   <div>
-    <p>I this post I'll try to make an easy example, and explain, how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this:</p>
+    <p>This post is a simple example that explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this:</p>
 <div class="highlight"><pre><span></span><span class="nd">@mydecorator</span><span class="p">(</span><span class="n">my_argument</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_decorated_function</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">input</span>
@@ -116,8 +116,8 @@
 <p>Hello, World!</p>
 <p>-------------------</p>
 <h3>A decorator without argument(s)</h3>
-<p>Let's first look at doing a decorator without input arguments as a reference. It's usually done by creating a decorator function, with a function as an input parameter. So the function you decorate will be the input to the decorator function. </p>
-<p>Then a wrapper function is created within the decorator function that does some some work. The decorator function then returns the wrapper function with some modified functionality as in the following example. Here I've put the incoming function into the result variable, and returning an f-string with that variable included.</p>
+<p>Let's first look at a decorator without input arguments as a reference. It's usually done by creating a decorator function, with a function as an input argument. So the function you decorate will be the input to the decorator function. </p>
+<p>Then a wrapper function is created within the decorator function that does some work. The decorator function then returns the wrapper function with some modified functionality as in the following example. Here I've put the incoming function into the result variable, and returning an f-string with that variable included.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -142,7 +142,7 @@
 
 
 <h3>A decorator with an argument</h3>
-<p>But what if we didn't want to hard code, in this case, what text is added to the output, but rather control that by adding a parameter to the decorator? Well, for me that was very hard to understand how to do at first, and it took me some googling and brainwork to get the hang of it all.</p>
+<p>But what if we don't want to hard code, in this case, the text that is added to the output, and rather want to control that by adding an argument to the decorator? Well, for me it was very hard to understand how to do that at first, and it took me some googling and brainwork to get the hang of it all.</p>
 <p>We already have a function within a function to do what we already did in the previous example. Now we also need a function, within a function, within a function. Coming from languages as <code>C#</code> and <code>PowerShell</code>, I'd never seen this before. Maybe it exists in those languages as well, but it is all new to me. So the decorator function would look like this.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">input_arg</span><span class="p">):</span>
 
@@ -156,9 +156,9 @@
 </pre></div>
 
 
-<p>And now we can add a parameter to the decorator, which will be used within the decorator function. So the outer decorator function will take the parameter from the decorator, and the next inner function will take the decorated function as input (as seen in the first example) and be able to use the input from the outer function. </p>
+<p>And now we can add an argument to the decorator, which will be used within the decorator function. So the outer decorator function will take the argument from the decorator, and the next inner function will take the decorated function as input (as seen in the first example) and be able to use the input from the outer function. </p>
 <p>First we return the <code>wrapper</code> function to <code>the_real_decorator</code>, and then we return <code>the_real_decorator</code> to the actual decorator function. </p>
-<p>For me this was/is kind of mind blowing. But when we now use the decorator with a parameter, we can see that the parameter works.</p>
+<p>For me this was/is kind of mind blowing. But since we now use the decorator with an argument, we can see that the argument works.</p>
 <div class="highlight"><pre><span></span><span class="nd">@my_decorator</span><span class="p">(</span><span class="s1">&#39;-------------&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_decorated_function</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">input</span>
@@ -174,13 +174,13 @@
 
 
 <h3>Conclusion</h3>
-<p>I hope that in this article, I've managed to explain in a simple way, how you can use parameter(s) with your decorator functions in Python. </p>
+<p>I hope that in this article I've managed to explain in a simple way, how you can use argument(s) with your decorator functions in Python. </p>
 <h3>Resources</h3>
 <ul>
 <li><a href="https://realpython.com/primer-on-python-decorators/" target="_blank">Primer on Python Decorators - Real Python</a></li>
 <li><a href="https://youtu.be/MjHpMCIvwsY" target="_blank">Reuven M. Lerner - Practical decorators - PyCon 2019</a> (YouTube video)</li>
 </ul>
-<p>Let me know on Twitter if I can improve this article, or if you have other resource to help out in understanding this.</p>
+<p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
   </div>
   <div class="tag-cloud">
     <p>
