@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O" />
+<meta name="description" content="At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was …" />
+<meta name="keywords" content="Python, Pieces of Py, Pandas, CSV, JSON">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="Pieces of Py #3 Clean up data from csv and save to json in a simple way with pandas"/>
+<meta property="og:description" content="At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.io/blog/Clean-up-data-from-csv-and-save-to-json-in-a-simple-way-with-pandas/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-08-05 10:02:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Pieces of Py"/>
+<meta property="article:tag" content="Pandas"/>
+<meta property="article:tag" content="CSV"/>
+<meta property="article:tag" content="JSON"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; Pieces of Py #3 Clean up data from csv and save to json in a simple way with pandas</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.io">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+
+<p>Yet Another PyGuy</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/#about">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="Clean-up-data-from-csv-and-save-to-json-in-a-simple-way-with-pandas">Pieces of Py #3 Clean up data from csv and save to json in a simple way with pandas</h1>
+    <p>
+          Posted on Mon 05 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+
+
+        &#8226; 4 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p>At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was quite many, and some of them contained information that was not useful in the data layer. </p>
+<p>I could have used to built-in csv library in python, but had read a little bit of pandas and thought it would be faster and easier to use that. Also an opportunity for me to learn a little about pandas.</p>
+<h2>The data file</h2>
+<p>For this example I have generated a representative sample csv with the help of <a href="https://mockaroo.com">mockaroo.com</a>. I've put the data into a file called SERVER_DATA.csv in a data folder. Here is a preview of how the top of the csv file looks.</p>
+<div class="highlight"><pre><span></span><span class="n">id</span><span class="p">;</span><span class="k">server_name</span><span class="p">;</span><span class="n">ip_adress</span><span class="p">;</span><span class="n">mac_address</span><span class="p">;</span><span class="n">misc_info</span><span class="p">;</span><span class="n">status</span><span class="p">;</span><span class="k">size</span>
+<span class="mi">1</span><span class="p">;</span><span class="n">swe_oefg_767</span><span class="p">;</span><span class="mi">28</span><span class="p">.</span><span class="mi">118</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">105</span><span class="p">;</span><span class="n">D8</span><span class="o">-</span><span class="mi">8</span><span class="n">F</span><span class="o">-</span><span class="mi">4</span><span class="n">A</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="n">FA</span><span class="o">-</span><span class="n">E3</span><span class="p">;;</span><span class="n">production</span><span class="p">;</span><span class="n">small</span>
+<span class="mi">2</span><span class="p">;</span><span class="n">swe_uqyu_254</span><span class="p">;</span><span class="mi">248</span><span class="p">.</span><span class="mi">221</span><span class="p">.</span><span class="mi">85</span><span class="p">.</span><span class="mi">237</span><span class="p">;</span><span class="n">AA</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="n">A5</span><span class="o">-</span><span class="n">D3</span><span class="o">-</span><span class="mi">5</span><span class="n">D</span><span class="o">-</span><span class="mi">8</span><span class="k">C</span><span class="p">;</span><span class="mi">4</span><span class="p">.</span><span class="mi">1</span><span class="p">;</span><span class="n">production</span><span class="p">;</span><span class="n">small</span>
+<span class="mi">3</span><span class="p">;</span><span class="n">swe_dkhr_247</span><span class="p">;</span><span class="mi">188</span><span class="p">.</span><span class="mi">169</span><span class="p">.</span><span class="mi">9</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span><span class="mi">30</span><span class="o">-</span><span class="mi">19</span><span class="o">-</span><span class="n">FD</span><span class="o">-</span><span class="mi">98</span><span class="o">-</span><span class="mi">39</span><span class="o">-</span><span class="n">D0</span><span class="p">;;</span><span class="n">discontinued</span><span class="p">;</span><span class="k">large</span>
+<span class="mi">4</span><span class="p">;</span><span class="n">swe_fini_035</span><span class="p">;</span><span class="mi">42</span><span class="p">.</span><span class="mi">30</span><span class="p">.</span><span class="mi">234</span><span class="p">.</span><span class="mi">149</span><span class="p">;</span><span class="mi">5</span><span class="n">F</span><span class="o">-</span><span class="n">DE</span><span class="o">-</span><span class="mi">2</span><span class="n">E</span><span class="o">-</span><span class="mi">33</span><span class="o">-</span><span class="mi">36</span><span class="o">-</span><span class="mi">11</span><span class="p">;;</span><span class="n">discontinued</span><span class="p">;</span><span class="n">small</span>
+<span class="mi">5</span><span class="p">;</span><span class="n">swe_wyff_450</span><span class="p">;</span><span class="mi">198</span><span class="p">.</span><span class="mi">113</span><span class="p">.</span><span class="mi">163</span><span class="p">.</span><span class="mi">165</span><span class="p">;</span><span class="n">F4</span><span class="o">-</span><span class="mi">55</span><span class="o">-</span><span class="n">D6</span><span class="o">-</span><span class="n">AF</span><span class="o">-</span><span class="n">FC</span><span class="o">-</span><span class="mi">7</span><span class="k">C</span><span class="p">;</span><span class="mi">5</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">6</span><span class="p">;</span><span class="n">discontinued</span><span class="p">;</span><span class="n">medium</span>
+<span class="mi">6</span><span class="p">;</span><span class="n">swe_opha_769</span><span class="p">;</span><span class="mi">231</span><span class="p">.</span><span class="mi">229</span><span class="p">.</span><span class="mi">91</span><span class="p">.</span><span class="mi">157</span><span class="p">;</span><span class="mi">55</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span><span class="o">-</span><span class="mi">38</span><span class="o">-</span><span class="mi">75</span><span class="o">-</span><span class="mi">8</span><span class="n">F</span><span class="o">-</span><span class="mi">51</span><span class="p">;;</span><span class="n">discontinued</span><span class="p">;</span><span class="k">large</span>
+<span class="mi">7</span><span class="p">;</span><span class="n">swe_nkeu_365</span><span class="p">;</span><span class="mi">50</span><span class="p">.</span><span class="mi">138</span><span class="p">.</span><span class="mi">198</span><span class="p">.</span><span class="mi">80</span><span class="p">;</span><span class="mi">28</span><span class="o">-</span><span class="n">BD</span><span class="o">-</span><span class="n">EA</span><span class="o">-</span><span class="n">D0</span><span class="o">-</span><span class="mi">83</span><span class="o">-</span><span class="n">F6</span><span class="p">;</span><span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="p">.</span><span class="mi">6</span><span class="p">;</span><span class="n">production</span><span class="p">;</span><span class="n">small</span>
+<span class="mi">8</span><span class="p">;</span><span class="n">swe_zwsu_221</span><span class="p">;</span><span class="mi">158</span><span class="p">.</span><span class="mi">199</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">235</span><span class="p">;</span><span class="n">EC</span><span class="o">-</span><span class="mi">3</span><span class="k">C</span><span class="o">-</span><span class="n">BE</span><span class="o">-</span><span class="n">C9</span><span class="o">-</span><span class="n">AA</span><span class="o">-</span><span class="n">B7</span><span class="p">;;</span><span class="n">discontinued</span><span class="p">;</span><span class="n">medium</span>
+<span class="mi">9</span><span class="p">;</span><span class="n">swe_txjz_516</span><span class="p">;</span><span class="mi">141</span><span class="p">.</span><span class="mi">195</span><span class="p">.</span><span class="mi">246</span><span class="p">.</span><span class="mi">105</span><span class="p">;</span><span class="mi">4</span><span class="n">E</span><span class="o">-</span><span class="n">E0</span><span class="o">-</span><span class="mi">42</span><span class="o">-</span><span class="mi">79</span><span class="o">-</span><span class="mi">30</span><span class="o">-</span><span class="mi">2</span><span class="n">F</span><span class="p">;</span><span class="mi">1</span><span class="p">.</span><span class="mi">54</span><span class="p">;</span><span class="n">discontinued</span><span class="p">;</span><span class="n">medium</span>
+<span class="mi">10</span><span class="p">;</span><span class="n">swe_ccdm_053</span><span class="p">;</span><span class="mi">150</span><span class="p">.</span><span class="mi">107</span><span class="p">.</span><span class="mi">67</span><span class="p">.</span><span class="mi">30</span><span class="p">;</span><span class="mi">33</span><span class="o">-</span><span class="mi">57</span><span class="o">-</span><span class="mi">6</span><span class="n">B</span><span class="o">-</span><span class="mi">6</span><span class="n">F</span><span class="o">-</span><span class="n">AB</span><span class="o">-</span><span class="n">C2</span><span class="p">;;</span><span class="n">production</span><span class="p">;</span><span class="n">medium</span>
+<span class="mi">11</span><span class="p">;</span><span class="n">swe_lerd_015</span><span class="p">;</span><span class="mi">253</span><span class="p">.</span><span class="mi">152</span><span class="p">.</span><span class="mi">33</span><span class="p">.</span><span class="mi">116</span><span class="p">;</span><span class="mi">82</span><span class="o">-</span><span class="n">CA</span><span class="o">-</span><span class="n">F8</span><span class="o">-</span><span class="mi">60</span><span class="o">-</span><span class="mi">98</span><span class="o">-</span><span class="n">A0</span><span class="p">;</span><span class="mi">8</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">3</span><span class="p">;</span><span class="n">discontinued</span><span class="p">;</span><span class="n">medium</span>
+<span class="mi">12</span><span class="p">;</span><span class="n">swe_qjvb_567</span><span class="p">;</span><span class="mi">78</span><span class="p">.</span><span class="mi">118</span><span class="p">.</span><span class="mi">62</span><span class="p">.</span><span class="mi">146</span><span class="p">;</span><span class="mi">95</span><span class="o">-</span><span class="n">FA</span><span class="o">-</span><span class="mi">53</span><span class="o">-</span><span class="mi">0</span><span class="n">F</span><span class="o">-</span><span class="n">A5</span><span class="o">-</span><span class="n">A4</span><span class="p">;;</span><span class="n">production</span><span class="p">;</span><span class="k">large</span>
+</pre></div>
+
+
+<h2>Load the file into a dataframe</h2>
+<p>At first I load the file into a pandas dataframe (df), and use <code>head()</code> to have a look at the first five rows.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span>
+
+<span class="c1"># read the csv file into a dataframe</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;data/SERVER_DATA.csv&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<div>
+<style>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>server_name</th>
+      <th>ip_adress</th>
+      <th>mac_address</th>
+      <th>misc_info</th>
+      <th>status</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>swe_oefg_767</td>
+      <td>28.118.94.105</td>
+      <td>D8-8F-4A-21-FA-E3</td>
+      <td>NaN</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>swe_uqyu_254</td>
+      <td>248.221.85.237</td>
+      <td>AA-05-A5-D3-5D-8C</td>
+      <td>4.1</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>swe_dkhr_247</td>
+      <td>188.169.9.5</td>
+      <td>30-19-FD-98-39-D0</td>
+      <td>NaN</td>
+      <td>discontinued</td>
+      <td>large</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>swe_fini_035</td>
+      <td>42.30.234.149</td>
+      <td>5F-DE-2E-33-36-11</td>
+      <td>NaN</td>
+      <td>discontinued</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>swe_wyff_450</td>
+      <td>198.113.163.165</td>
+      <td>F4-55-D6-AF-FC-7C</td>
+      <td>5.5.6</td>
+      <td>discontinued</td>
+      <td>medium</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Remove columns</h2>
+<p>In this case I know that the column <code>misc_info</code> is something that is not needed in the destination database. So I want to remove that column. This is easily done with the  <code>drop()</code> method of the dataframe object. I put in the name of the column (or columns) that I want to remove, into a list.</p>
+<p>After then let's use <code>head()</code> again to see how the data looks.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Remove unwanted columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;misc_info&#39;</span><span class="p">,</span>
+    <span class="p">])</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<div>
+<style>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>server_name</th>
+      <th>ip_adress</th>
+      <th>mac_address</th>
+      <th>status</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>swe_oefg_767</td>
+      <td>28.118.94.105</td>
+      <td>D8-8F-4A-21-FA-E3</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>swe_uqyu_254</td>
+      <td>248.221.85.237</td>
+      <td>AA-05-A5-D3-5D-8C</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>swe_dkhr_247</td>
+      <td>188.169.9.5</td>
+      <td>30-19-FD-98-39-D0</td>
+      <td>discontinued</td>
+      <td>large</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>swe_fini_035</td>
+      <td>42.30.234.149</td>
+      <td>5F-DE-2E-33-36-11</td>
+      <td>discontinued</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>swe_wyff_450</td>
+      <td>198.113.163.165</td>
+      <td>F4-55-D6-AF-FC-7C</td>
+      <td>discontinued</td>
+      <td>medium</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Filter out unwanted rows</h2>
+<p>The <code>misc_info</code> column is removed. If I look at the status column, there is servers that are no longer in production. I do not want these either in the destination database. So let's filter them out by the following command, and then use <code>head()</code> again.</p>
+<div class="highlight"><pre><span></span><span class="c1"># filter out discontinued servers</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;discontinued&#39;</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<div>
+<style>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>server_name</th>
+      <th>ip_adress</th>
+      <th>mac_address</th>
+      <th>status</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>swe_oefg_767</td>
+      <td>28.118.94.105</td>
+      <td>D8-8F-4A-21-FA-E3</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>swe_uqyu_254</td>
+      <td>248.221.85.237</td>
+      <td>AA-05-A5-D3-5D-8C</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>swe_nkeu_365</td>
+      <td>50.138.198.80</td>
+      <td>28-BD-EA-D0-83-F6</td>
+      <td>production</td>
+      <td>small</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>swe_ccdm_053</td>
+      <td>150.107.67.30</td>
+      <td>33-57-6B-6F-AB-C2</td>
+      <td>production</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>swe_qjvb_567</td>
+      <td>78.118.62.146</td>
+      <td>95-FA-53-0F-A5-A4</td>
+      <td>production</td>
+      <td>large</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Export to json</h2>
+<p>Now the data seems to be clean and ready to export to json. The dataframe has a <code>to_json()</code> method for that task. It can output the data into different formats. (<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html">Look in the pandas documentation for the different formats available</a>). </p>
+<p>I am using the <code>records</code> format to get a list like output.</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="s1">&#39;data/server_data.json&#39;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The top rows of the content of the json file is shown below.</p>
+<div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;server_name&quot;</span><span class="p">:</span> <span class="s2">&quot;swe_oefg_767&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;ip_adress&quot;</span><span class="p">:</span> <span class="s2">&quot;28.118.94.105&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;mac_address&quot;</span><span class="p">:</span> <span class="s2">&quot;D8-8F-4A-21-FA-E3&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;production&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;small&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;server_name&quot;</span><span class="p">:</span> <span class="s2">&quot;swe_uqyu_254&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;ip_adress&quot;</span><span class="p">:</span> <span class="s2">&quot;248.221.85.237&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;mac_address&quot;</span><span class="p">:</span> <span class="s2">&quot;AA-05-A5-D3-5D-8C&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;production&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;small&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+        <span class="nt">&quot;server_name&quot;</span><span class="p">:</span> <span class="s2">&quot;swe_nkeu_365&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;ip_adress&quot;</span><span class="p">:</span> <span class="s2">&quot;50.138.198.80&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;mac_address&quot;</span><span class="p">:</span> <span class="s2">&quot;28-BD-EA-D0-83-F6&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;production&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;small&quot;</span>
+    <span class="p">},</span>
+</pre></div>
+
+
+<h2>Conclusion</h2>
+<p>In this article I used <code>pandas</code> to load and clean up a csv file, and then exported it to a json file. All was done in around 6 lines of code. I don't know how many lines of code it would have taken to do this with the build in <code>csv</code> library. But <code>pandas</code> provide some really easy-to-use tools to do work like this on different data files, like <code>csv</code>, <code>excel</code>, <code>json</code> and other formats.</p>
+<p>I am thinking, to do these basic tasks that I've done in this article is so straight-forward, that you really don't need to be a python developer to do it. Any tech-savvy person could do this by using a hosted Jupyter notebook (e.g. <a href="https://notebooks.azure.com">notebooks.azure.com</a>), and it might even be easier than to do it in Excel.</p>
+<h2>Resources</h2>
+<ul>
+<li><a href="https://pandas.pydata.org" target="_blank">Pandas home page</a></li>
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html" target="_blank">Pandas.read_csv - Pandas documentation</a></li>
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html?highlight=to_json#pandas.DataFrame.to_json" target="_blank">Pandas.DataFrame.to_json - Pandas documentation</a></li>
+</ul>
+<p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://joeriksson.io/tag/python.html">Python</a>
+      <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
+      <a href="https://joeriksson.io/tag/pandas.html">Pandas</a>
+      <a href="https://joeriksson.io/tag/csv.html">CSV</a>
+      <a href="https://joeriksson.io/tag/json.html">JSON</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>    Like this article? Share it with your friends!
+</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy; J-O Eriksson 2019</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.io",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>

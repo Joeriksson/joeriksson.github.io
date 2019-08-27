@@ -12,25 +12,38 @@
 
     <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/native.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
   <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
-
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
 
 
     <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
 
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 <meta name="author" content="J-O" />
-<meta name="description" content="This post is a simple example that explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this: @mydecorator(my_argument) def my_decorated_function(input): return input A simple scenario could be that you would like to print something …" />
-<meta name="keywords" content="Python, Pieces of Py">
+<meta name="description" content="This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this: @mydecorator(my_argument) def my_decorated_function(input): return input A simple scenario could be that you would like to print something …" />
+<meta name="keywords" content="Python, Pieces of Py, Decorator">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
 <meta property="og:title" content="Pieces of Py #1: Decorator with arguments"/>
-<meta property="og:description" content="This post is a simple example that explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this: @mydecorator(my_argument) def my_decorated_function(input): return input A simple scenario could be that you would like to print something …"/>
+<meta property="og:description" content="This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this: @mydecorator(my_argument) def my_decorated_function(input): return input A simple scenario could be that you would like to print something …"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://joeriksson.io/Decorator with arguments.html"/>
+<meta property="og:url" content="https://joeriksson.io/blog/Decorator with arguments/"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2019-07-09 21:49:00+02:00"/>
 <meta property="article:modified_time" content=""/>
@@ -38,6 +51,7 @@
 <meta property="article:section" content="Python"/>
 <meta property="article:tag" content="Python"/>
 <meta property="article:tag" content="Pieces of Py"/>
+<meta property="article:tag" content="Decorator"/>
 <meta property="og:image" content="/images/logo.jpg">
 
   <title>J-O Eriksson's blog &ndash; Pieces of Py #1: Decorator with arguments</title>
@@ -51,10 +65,20 @@
       </a>
       <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
 
-<p>Python Developer Wannabe</p>
+<p>Yet Another PyGuy</p>
       <nav>
         <ul class="list">
-          <li><a href="https://joeriksson.io/pages/about.html#about">About</a></li>
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/#about">About</a></li>
 
         </ul>
       </nav>
@@ -87,15 +111,16 @@
       
     <h1 id="Decorator with arguments">Pieces of Py #1: Decorator with arguments</h1>
     <p>
-          Posted on Tue 09 July 2019 21:49 in <a href="https://joeriksson.io/category/python.html">Python</a>
+          Posted on Tue 09 July 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
+        &#8226; 3 min read
     </p>
   </header>
 
 
   <div>
-    <p>This post is a simple example that explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this:</p>
+    <p>This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this:</p>
 <div class="highlight"><pre><span></span><span class="nd">@mydecorator</span><span class="p">(</span><span class="n">my_argument</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_decorated_function</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">input</span>
@@ -142,8 +167,8 @@
 
 
 <h3>A decorator with an argument</h3>
-<p>But what if we don't want to hard code, in this case, the text that is added to the output, and rather want to control that by adding an argument to the decorator? Well, for me it was very hard to understand how to do that at first, and it took me some googling and brainwork to get the hang of it all.</p>
-<p>We already have a function within a function to do what we already did in the previous example. Now we also need a function, within a function, within a function. Coming from languages as <code>C#</code> and <code>PowerShell</code>, I'd never seen this before. Maybe it exists in those languages as well, but it is all new to me. So the decorator function would look like this.</p>
+<p>But what if we don't want to hard code, in this case the text that is added to the output, and rather want to control that by adding an argument to the decorator? Well, for me it was very hard to understand how to do that at first, and it took me some googling and brainwork to get the hang of it all.</p>
+<p>We already have a function within a function to do what we already did in the previous example. Now we also need a function, within a function, within a function. Coming from languages as <code>C#</code> and <code>PowerShell</code>, that I'd never seen before. Maybe it exists in those languages as well, but it is all new to me. So the decorator function would look like this.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">input_arg</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">the_real_decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
@@ -186,22 +211,32 @@
     <p>
       <a href="https://joeriksson.io/tag/python.html">Python</a>
       <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
+      <a href="https://joeriksson.io/tag/decorator.html">Decorator</a>
     </p>
   </div>
 
+  <div class="center social-share">
+    <p>    Like this article? Share it with your friends!
+</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
 
 
+    <div class="addthis_relatedposts_inline"></div>
 
 
 </article>
 
     <footer>
-<p>&copy;  </p>
+<p>&copy; J-O Eriksson 2019</p>
 <p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
 </p>    </footer>
   </main>
 
 
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
 
 
 <script type="application/ld+json">
@@ -211,7 +246,7 @@
   "name": " J-O Eriksson's blog ",
   "url" : "https://joeriksson.io",
   "image": "/images/logo.jpg",
-  "description": "J-O's Thoughts and Writings"
+  "description": "J-O's Thoughts and Writings about Python"
 }
 </script>
 

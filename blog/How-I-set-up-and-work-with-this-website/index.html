@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O" />
+<meta name="description" content="In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my …" />
+<meta name="keywords" content="Python, Pelican, This website, CircleCI, Netlify">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="How I set up and work with this website"/>
+<meta property="og:description" content="In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.io/blog/How-I-set-up-and-work-with-this-website/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-08-03 12:38:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Pelican"/>
+<meta property="article:tag" content="This website"/>
+<meta property="article:tag" content="CircleCI"/>
+<meta property="article:tag" content="Netlify"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; How I set up and work with this website</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.io">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+
+<p>Yet Another PyGuy</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/#about">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="How-I-set-up-and-work-with-this-website">How I set up and work with this website</h1>
+    <p>
+          Posted on Sat 03 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+
+
+        &#8226; 6 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p>In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my devices (iOS and MacOS).</p>
+<p>This website is created with the Pelican static site generator. So the public website is only static files (html, css, images etc). I have in previous years had websites on wordpress and squarespace, to name a couple. But now I wanted something very simple without to much functionality, just content. And also I wanted it to be fast.</p>
+<p>Another wish I had, was that it would be low cost. In my scenario the only thing I currently pay for is the domain name.</p>
+<h2>Technologies and services used</h2>
+<p><strong>The technologies and services I use for my website are:</strong></p>
+<ul>
+<li><a href="https://blog.getpelican.com/">Pelican (static site generator)</a></li>
+<li><a href="https://www.python.org/">Python</a></li>
+<li><a href="https://github.com/">GitHub (one private and one public repo)</a></li>
+<li><a href="https://www.netlify.com/">Netlify (build and preview my staging environment)</a></li>
+<li><a href="https://circleci.com/">CircleCI (build and deploy to my production environment)</a></li>
+<li><a href="https://workingcopyapp.com/">Working Copy (iOS app)</a></li>
+</ul>
+<h2>Architectural overview</h2>
+<p>In this picture you can see a diagram over how the different things in my workflow connects together. One staging branch, and a production (master) branch, which at commits triggers a build on Netlify and CircleCI respectively.</p>
+<p>Later in this article I’ll describe how the builds work and the build scripts for each of the branches.</p>
+<p><img alt="Workflow overview" src="https://joeriksson.io/images/website_workflow.jpg"></p>
+<h2>Local development environment</h2>
+<p>In my case, I don’t actually need a local development environment once I’ve set up the project and pushed it to my private GitHub. Netlify and CircleCI builds automatically depending on which branch I commit to. Still I have a local environment on my MacBook where I can try out certain things and immediately see the results without pushing to github.</p>
+<h3>MacBook</h3>
+<p>So, on my MacBook I have a local Git repo which I work on in either PyCharm or Visual Studio code. There is a virtual environment for the project which has Pelican and its dependencies installed.</p>
+<p>After doing any changes, I tell Pelican to generate the static website and I can browse it locally and see the results. Also I can use the following command to make Pelican serve my pages locally, and automatically regenerate the static files when I do changes:</p>
+<p><code>Pelican -r --listen</code></p>
+<p>I do my work on a staging branch which I periodically commit and push to a private GitHub repo. This automatically triggers Netlify to build and serve my site on a anonymous url.</p>
+<p>If I want to go to production, all I have to do is merge the staging branch into master, and CircleCI publishes to my GitHub pages.</p>
+<h3>iPad and iPhone</h3>
+<p>I can work on my private repo on both my iPad and iPhone with the help of the Working Copy App. Working Copy is a Git client app for iOS. With Working Copy I can edit, commit, push, pull etc. It also gives other apps access to the repos. For example, in Working Copy I can choose to open a MarkDown file in Ulysses, BearApp or some other Markdown Editor. When I am finished editing, I just switch back to Working Copy, and the changes are automatically saved into the file in the repo (doesn't work with any app, but Ulysses handles this nicely).</p>
+<p><img alt="Working Copy on iPad" src="https://joeriksson.io/images/Working_copy_ipad.PNG"></p>
+<p>One disadvantage when working on iOS is that I can not directly preview the results of what I’ve done. I first need to commit and push to my staging branch and let it build before I can browse to it in Safari. But for now I don’t see that as a big problem.</p>
+<h2>Building to the staging environment with Netlify</h2>
+<p>When you setup a project on Netlify, you get the option to connect it to a GitHub repository. I connected a Netlify project to my private repo on GitHub containing the whole Pelican project. The only other configurations I did can be seen in the image below.</p>
+<p><img alt="Netlify settings" src="https://joeriksson.io/images/netlify_settings.jpg"></p>
+<p>I put in the build command, which is just the standard Pelican command. I do have a separate <code>stagingconf.py</code>, which is a copy of the <code>publishconf.py</code> but with the Netlify SiteUrl.</p>
+<p>Also, under Deploy Contexts I've set the staging branch as Production branch, so it only builds from the staging branch.</p>
+<h3>Build script</h3>
+<p>As seen in the picture above, the build script is just a simple:</p>
+<p><code>pelican content -o output -s stagingconf.py</code></p>
+<h2>Building to the production environment with CircleCI</h2>
+<p>One reason that I choose CircleCI for the production branch, is that I couldn't find an easy way to do what I wanted with Netlify (although I am sure it is possible). I wanted to build the master branch from the private repo, and just publish the static files generated to my public repo (GitHub pages at github.io). So the public repo would not contain anything but the static files.</p>
+<p>I found a build script that did what I wanted after som googling (see Resources below for where I got it). I did some small modifications to the build script. Also you'll find the full build script further down in this article.</p>
+<p>Basically I have just changed the <code>TARGET_REPO</code> parameter, and at the bottom added a workflow so that it only triggers on commits to the master branch, and not on the staging branch.</p>
+<p>As you can see in the script further below, we need to have a GitHub Token in the <code>git -clone</code> command. I store this token in an enviroment variable in CircleCI and are calling it <code>GH_TOKEN</code>.</p>
+<p><img alt="CircleCI Environment Variable" src="https://joeriksson.io/images/CCI_env_var.jpg"></p>
+<h3>Build script</h3>
+<p>I created a <code>config.yml</code> file in a <code>.circleci</code> directory in the root of the private repo with the following content.</p>
+<div class="highlight"><pre><span></span><span class="nv">version</span>: <span class="mi">2</span>
+<span class="nv">jobs</span>:
+  <span class="nv">build</span>:
+    <span class="nv">docker</span>:
+      <span class="o">-</span> <span class="nv">image</span>: <span class="nv">circleci</span><span class="o">/</span><span class="nv">python</span>:<span class="mi">3</span>.<span class="mi">7</span>.<span class="mi">1</span>
+    <span class="nv">working_directory</span>: <span class="o">~/</span><span class="nv">repo</span>
+    <span class="nv">environment</span>:
+      <span class="nv">BRANCH</span>: <span class="nv">master</span>
+      <span class="nv">TARGET_REPO</span>: <span class="nv">joeriksson</span><span class="o">/</span><span class="nv">joeriksson</span>.<span class="nv">github</span>.<span class="nv">io</span>.<span class="nv">git</span>
+      <span class="nv">PELICAN_OUTPUT_FOLDER</span>: <span class="nv">output</span>
+    <span class="nv">steps</span>:
+      <span class="o">-</span> <span class="nv">checkout</span>
+
+      # <span class="nv">Download</span> <span class="nv">and</span> <span class="nv">cache</span> <span class="nv">dependencies</span>
+      <span class="o">-</span> <span class="nv">restore_cache</span>:
+          <span class="nv">keys</span>:
+            <span class="o">-</span> <span class="nv">v1</span><span class="o">-</span><span class="nv">dependencies</span><span class="o">-</span>{{ <span class="nv">checksum</span> <span class="s2">&quot;</span><span class="s">requirements.txt</span><span class="s2">&quot;</span> }}
+            # <span class="nv">fallback</span> <span class="nv">to</span> <span class="nv">using</span> <span class="nv">the</span> <span class="nv">latest</span> <span class="nv">cache</span> <span class="k">if</span> <span class="nv">no</span> <span class="nv">exact</span> <span class="nv">match</span> <span class="nv">is</span> <span class="nv">found</span>
+            <span class="o">-</span> <span class="nv">v1</span><span class="o">-</span><span class="nv">dependencies</span><span class="o">-</span>
+
+      <span class="o">-</span> <span class="nv">run</span>:
+          <span class="nv">name</span>: <span class="nv">install</span> <span class="nv">dependencies</span>
+          <span class="nv">command</span>: <span class="o">|</span>
+            <span class="nv">python3</span> <span class="o">-</span><span class="nv">m</span> <span class="nv">venv</span> <span class="nv">venv</span>
+            . <span class="nv">venv</span><span class="o">/</span><span class="nv">bin</span><span class="o">/</span><span class="nv">activate</span>
+            <span class="nv">pip</span> <span class="nv">install</span> <span class="o">-</span><span class="nv">r</span> <span class="nv">requirements</span>.<span class="nv">txt</span>
+      <span class="o">-</span> <span class="nv">run</span>:
+          <span class="nv">name</span>: <span class="nv">build</span> <span class="nv">static</span> <span class="nv">pages</span> <span class="nv">with</span> <span class="nv">Pelican</span>
+          <span class="nv">command</span>: <span class="o">|</span>
+            . <span class="nv">venv</span><span class="o">/</span><span class="nv">bin</span><span class="o">/</span><span class="nv">activate</span>
+            <span class="nv">pelican</span> <span class="nv">content</span> <span class="o">-</span><span class="nv">o</span> <span class="nv">output</span> <span class="o">-</span><span class="nv">s</span> <span class="nv">publishconf</span>.<span class="nv">py</span>
+      <span class="o">-</span> <span class="nv">save_cache</span>:
+          <span class="nv">paths</span>:
+            <span class="o">-</span> .<span class="o">/</span><span class="nv">venv</span>
+          <span class="nv">key</span>: <span class="nv">v1</span><span class="o">-</span><span class="nv">dependencies</span><span class="o">-</span>{{ <span class="nv">checksum</span> <span class="s2">&quot;</span><span class="s">requirements.txt</span><span class="s2">&quot;</span> }}
+
+      <span class="o">-</span> <span class="nv">deploy</span>:
+          <span class="nv">name</span>: <span class="nv">Deploy</span> <span class="nv">static</span> <span class="nv">pages</span> <span class="nv">to</span> <span class="nv">Github</span> <span class="nv">Pages</span>
+          <span class="nv">command</span>: <span class="o">|</span>
+            <span class="k">if</span> [ <span class="s2">&quot;</span><span class="s">${CIRCLE_BRANCH}</span><span class="s2">&quot;</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">master</span><span class="s2">&quot;</span> ]<span class="c1">; then</span>
+              <span class="nv">echo</span> <span class="o">-</span><span class="nv">e</span> <span class="s2">&quot;</span><span class="s">Starting to deploy to Github Pages</span><span class="se">\n</span><span class="s2">&quot;</span>
+              <span class="nv">cd</span> <span class="o">~/</span><span class="nv">repo</span>
+              <span class="nv">git</span> <span class="nv">config</span> <span class="o">--</span><span class="nv">global</span> <span class="nv">user</span>.<span class="nv">email</span> <span class="s2">&quot;</span><span class="s">builds@circleci.com</span><span class="s2">&quot;</span>
+              <span class="nv">git</span> <span class="nv">config</span> <span class="o">--</span><span class="nv">global</span> <span class="nv">user</span>.<span class="nv">name</span> <span class="s2">&quot;</span><span class="s">CircleCI</span><span class="s2">&quot;</span>
+              #<span class="nv">using</span> <span class="nv">token</span> <span class="nv">clone</span> <span class="nv">gh</span><span class="o">-</span><span class="nv">pages</span> <span class="nv">branch</span>
+              <span class="nv">git</span> <span class="nv">clone</span> <span class="o">--</span><span class="nv">quiet</span> <span class="o">--</span><span class="nv">branch</span><span class="o">=</span><span class="mh">$C</span><span class="nv">IRCLE_BRANCH</span> <span class="nv">https</span>:<span class="o">//</span>${<span class="nv">GH_TOKEN</span>}@<span class="nv">github</span>.<span class="nv">com</span><span class="o">/</span>$<span class="nv">TARGET_REPO</span> <span class="nv">built_website</span> <span class="o">&gt;</span> <span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">null</span>
+              # <span class="nv">Installing</span> <span class="nv">rsync</span>
+              <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">Installing rsync</span><span class="s2">&quot;</span>
+              <span class="nv">sudo</span> <span class="nv">apt</span><span class="o">-</span><span class="nv">get</span> <span class="o">-</span><span class="nv">y</span> <span class="nv">install</span> <span class="nv">rsync</span>
+              #<span class="nv">go</span> <span class="nv">into</span> <span class="nv">directory</span> <span class="nv">and</span> <span class="nv">copy</span> <span class="nv">data</span> <span class="nv">we</span><span class="s1">&#39;</span><span class="s">re interested in to that directory</span>
+              <span class="nv">cd</span> <span class="nv">built_website</span>
+              <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">rsync built code with checked out code...</span><span class="s2">&quot;</span>
+              <span class="nv">rsync</span> <span class="o">-</span><span class="nv">r</span> <span class="o">--</span><span class="nv">exclude</span><span class="o">=</span>.<span class="nv">git</span> <span class="o">--</span><span class="nv">delete</span> ..<span class="o">/</span>$<span class="nv">PELICAN_OUTPUT_FOLDER</span><span class="o">/</span> .<span class="o">/</span>
+              #<span class="nv">add</span>, <span class="nv">commit</span> <span class="nv">and</span> <span class="nv">push</span> <span class="nv">files</span>
+              <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">add files to git...</span><span class="s2">&quot;</span>
+              <span class="nv">git</span> <span class="nv">add</span> <span class="o">-</span><span class="nv">f</span> .
+              <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">commit files to git repository...</span><span class="s2">&quot;</span>
+              <span class="k">if</span> <span class="nv">git</span> <span class="nv">commit</span> <span class="o">-</span><span class="nv">m</span> <span class="s2">&quot;</span><span class="s">CircleCI build $CIRCLE_BUILD_NUM pushed to Github Pages</span><span class="s2">&quot;</span> <span class="c1">; then</span>
+                <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">git push files with force...</span><span class="s2">&quot;</span>
+                <span class="nv">git</span> <span class="nv">push</span> <span class="o">-</span><span class="nv">fq</span> <span class="nv">origin</span> <span class="mh">$B</span><span class="nv">RANCH</span> <span class="o">&gt;</span> <span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">null</span>
+                <span class="nv">echo</span> <span class="o">-</span><span class="nv">e</span> <span class="s2">&quot;</span><span class="s">Deploy completed</span><span class="se">\n</span><span class="s2">&quot;</span>
+              <span class="k">else</span>
+                <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">Content not changed, nothing to deploy</span><span class="s2">&quot;</span>
+              <span class="nv">fi</span>
+            <span class="k">else</span>
+              <span class="nv">echo</span> <span class="s2">&quot;</span><span class="s">Not master branch, dry run only</span><span class="s2">&quot;</span>
+            <span class="nv">fi</span>
+<span class="nv">workflows</span>:
+  <span class="nv">version</span>: <span class="mi">2</span>
+  <span class="nv">main</span>:
+    <span class="nv">jobs</span>:
+      <span class="o">-</span> <span class="nv">build</span>:
+          <span class="nv">filters</span>:
+            <span class="nv">branches</span>:
+              <span class="nv">only</span>: <span class="nv">master</span>
+</pre></div>
+
+
+<h2>Conclusion</h2>
+<p>I find this setup and workflow works pretty well. It might not be simple compared to hosting on Wordpress when looking at the setup, commiting, building etc. But when writing only text articles with some code samples, there are not a lot of options to get confused by. Also there is currently not any functionality on the website, like for example comments sections (comments can always be done via my Twitter). The Netlify and CircleCI builds works very good in my opinion, and I find hosting the website at GitHub pages serves the webpages really fast.</p>
+<p>As the number of articles increase, I might add some search functionality via a Pelican plugin. I will post more articles in the future on different things I've added or modified in Pelican for my website.</p>
+<p>Let me know via Twitter if you find something is missing in this article, or if you have any question regarding it.</p>
+<h2>Resources</h2>
+<ul>
+<li><a href="https://github.com/andreagrandi/andreagrandi.it/blob/master/.circleci/config.yml">CircleCI build script from Andrea Grandi, which I copied and modified</a></li>
+</ul>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://joeriksson.io/tag/python.html">Python</a>
+      <a href="https://joeriksson.io/tag/pelican.html">Pelican</a>
+      <a href="https://joeriksson.io/tag/this-website.html">This website</a>
+      <a href="https://joeriksson.io/tag/circleci.html">CircleCI</a>
+      <a href="https://joeriksson.io/tag/netlify.html">Netlify</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>    Like this article? Share it with your friends!
+</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy; J-O Eriksson 2019</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.io",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>

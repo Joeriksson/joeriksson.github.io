@@ -1,6 +1,10 @@
 :root {
     --buttons_and_links: #4da7de; /* #437fd8; */
+    --buttons_and_links_hover: #28526d; /* #ff5a09 */
+    --navigation-side-menu-format: lowercase;
+    --side-bar-color: #2c2d27
 }
+
 body,
 html {
     width: 100%;
@@ -57,7 +61,7 @@ a {
 }
 
 a:hover {
-    color: #ff5a09
+    color: var(--buttons_and_links_hover)
 }
 
 hr {
@@ -74,7 +78,7 @@ img {
 }
 
 aside {
-    background-color: #333;
+    background-color: var(--side-bar-color);/* #333;*/
     text-align: center
 }
 
@@ -110,7 +114,7 @@ aside nav ul li {
     display: inline;
     line-height: 1.6em;
     font-size: 1.28em;
-    text-transform: lowercase
+    text-transform: var(--navigation-side-menu-format)
 }
 
 main nav {
@@ -193,7 +197,7 @@ main article pre {
 main article blockquote {
     padding: 10px 20px;
     font-weight: 300;
-    font-size: 1.1em
+    font-size: 1.0em
 }
 
 main article pre {
@@ -278,7 +282,7 @@ main footer p {
 }
 
 .tag-cloud a:hover {
-    background-color: #ff5a09
+    background-color: var(--buttons_and_links_hover)
 }
 
 a.btn {
@@ -294,7 +298,7 @@ a.btn {
 }
 
 a.btn:hover {
-    background-color: #ff5a09
+    background-color: var(--buttons_and_links_hover)
 }
 
 .center,
