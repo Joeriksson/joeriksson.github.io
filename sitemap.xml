@@ -5,42 +5,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://joeriksson.io/</loc>
-<lastmod>2019-08-29T12:01:03-00:00</lastmod>
+<lastmod>2019-08-29T13:16:16-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/archives.html</loc>
-<lastmod>2019-08-29T12:01:03-00:00</lastmod>
+<lastmod>2019-08-29T13:16:16-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/tags.html</loc>
-<lastmod>2019-08-29T12:01:03-00:00</lastmod>
+<lastmod>2019-08-29T13:16:16-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/categories.html</loc>
-<lastmod>2019-08-29T12:01:03-00:00</lastmod>
+<lastmod>2019-08-29T13:16:16-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/pages/about/</loc>
-<lastmod>2019-08-29T12:00:59+02:00</lastmod>
+<lastmod>2019-08-29T13:16:12+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/</loc>
-<lastmod>2019-08-29T12:00:59+02:00</lastmod>
+<lastmod>2019-08-29T13:16:12+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
