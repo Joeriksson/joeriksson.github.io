@@ -5,44 +5,51 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://joeriksson.io/</loc>
-<lastmod>2019-08-30T13:41:53-00:00</lastmod>
+<lastmod>2019-09-01T16:10:33-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/archives.html</loc>
-<lastmod>2019-08-30T13:41:53-00:00</lastmod>
+<lastmod>2019-09-01T16:10:33-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/tags.html</loc>
-<lastmod>2019-08-30T13:41:53-00:00</lastmod>
+<lastmod>2019-09-01T16:10:33-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/categories.html</loc>
-<lastmod>2019-08-30T13:41:53-00:00</lastmod>
+<lastmod>2019-09-01T16:10:33-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/pages/about/</loc>
-<lastmod>2019-08-30T13:41:49+02:00</lastmod>
+<lastmod>2019-09-01T16:10:30+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/</loc>
-<lastmod>2019-08-30T13:41:49+02:00</lastmod>
+<lastmod>2019-09-01T16:10:30+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://joeriksson.io/blog/Using-itertools-groupby/</loc>
+<lastmod>2019-09-01T17:53:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
 </url>
 
 <url>
@@ -82,14 +89,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://joeriksson.io/category/python.html</loc>
-<lastmod>2019-08-30T15:09:00+01:12</lastmod>
+<lastmod>2019-09-01T17:53:00+01:12</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/tag/python.html</loc>
-<lastmod>2019-08-30T15:09:00+01:12</lastmod>
+<lastmod>2019-09-01T17:53:00+01:12</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://joeriksson.io/tag/pieces-of-py.html</loc>
+<lastmod>2019-09-01T17:53:00+01:12</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://joeriksson.io/tag/itertools.html</loc>
+<lastmod>2019-09-01T17:53:00+01:12</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -104,13 +125,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://joeriksson.io/tag/flask.html</loc>
 <lastmod>2019-08-30T15:09:00+01:12</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://joeriksson.io/tag/pieces-of-py.html</loc>
-<lastmod>2019-08-05T10:02:00+01:12</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

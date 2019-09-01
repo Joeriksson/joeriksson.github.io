@@ -36,12 +36,12 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="J-O" />
-<meta name="description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They were: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from beginning, in a way …" />
+<meta name="description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They are: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from scratch, in a way …" />
 <meta name="keywords" content="Python, Code Journal, Flask">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
 <meta property="og:title" content="Code Journal R2D5 100 Days of Code 2019-08-30"/>
-<meta property="og:description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They were: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from beginning, in a way …"/>
+<meta property="og:description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They are: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from scratch, in a way …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://joeriksson.io/blog/code-journal-r2d5-100-days-of-code-2019-08-30/"/>
 <meta property="og:type" content="article"/>
@@ -119,20 +119,20 @@
 
 
   <div>
-    <p>The first couple of days of this second round of <a href="https://www.100daysofcode.com">#100DaysOfCode</a> I went through almost all the Flask tutorials in <a href="https://training.talkpython.fm/courses/details/100-days-of-web-in-python">#100DaysOfWeb in Python)</a> . They were:</p>
+    <p>The first couple of days of this second round of <a href="https://www.100daysofcode.com">#100DaysOfCode</a> I went through almost all the Flask tutorials in <a href="https://training.talkpython.fm/courses/details/100-days-of-web-in-python">#100DaysOfWeb in Python)</a> . They are:</p>
 <ul>
 <li>Flask Intro</li>
 <li>Calling APIs in Flask</li>
 <li>Flask Login</li>
 </ul>
-<p>As an extension to that I wanted to build my own app from beginning, in a way to state the knowledge I gained in these tutorials. I decided to build a Flask app where a user can sign up, login, change their profile, and write a code diary. In the end I will also publish it to Heroku, PythonAnywhere or something similar. Just to learn the whole thing from building to publishing.</p>
+<p>As an extension to that I wanted to build my own app from scratch, in a way to state the knowledge I gained in these tutorials. I decided to build a Flask app where a user can sign up, login, change their profile, and write a code diary. In the end I will also publish it to Heroku, PythonAnywhere or something similar. Just to get the whole thing from building to publishing.</p>
 <p>The code diary will contain the fields:</p>
 <ul>
 <li>Title</li>
 <li>Description</li>
 <li>Link (optional link to e.g. a repo or commit)</li>
 </ul>
-<p>So, today I set up the basic structure of the app. Will use a little bit different structure than from the tutorials. An also make use of Flask Blueprints.</p>
+<p>So, today I set up the basic structure of the app. Used a somewhat different structure than from the tutorials. And also I use Flask Blueprints.</p>
 <h3>Project Structure</h3>
 <p>The project structure I’ve done today, looks like this:</p>
 <p><img alt="Projec Structure" src="https://joeriksson.io/images/code-diary-structure.png"></p>
@@ -191,7 +191,7 @@
 
 
 <h3>Migrations</h3>
-<p>I am also using Flask-Migrate in the project to be able to easily handle any changes in the models. For that I’ve made an <code>manage.py</code> in the root of the project, that I can call with for example:</p>
+<p>I am also using Flask-Migrate in the project to be able to easily handle any changes in the models. For that I’ve made an <code>manage.py</code> in the root of the project that I can call for different operations, for example:</p>
 <ul>
 <li>Python manage.py db init</li>
 <li>Python manage.py db migrate</li>
@@ -238,7 +238,7 @@
 <h3>Next step</h3>
 <p>Tomorrow I will start to implement the views and functionality for the Diary model.</p>
 <h3>Conclusion</h3>
-<p>A simple Flask App can be as simple as a few files. But when starting to split the parts in a structure with folders for models, views and adding Flask extensions etc, there’s a lot of connections between the parts to get your head around in my opinion. But when the structure is in place it is probably easier to have it when the project grows.</p>
+<p>A simple Flask App can be as simple as a few files. But when starting to split the parts in a structure with folders for models, views and adding Flask extensions etc, there’s a lot of connections between the parts to get your head around in my opinion. But when the structure is in place it is probably easier to manage when the project grows.</p>
   </div>
   <div class="tag-cloud">
     <p>
