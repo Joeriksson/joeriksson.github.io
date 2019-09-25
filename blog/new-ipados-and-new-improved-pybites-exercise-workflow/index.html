@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O" />
+<meta name="description" content="The other day I wrote an article on how I have been working with Pybite exercises on my iPad. Since the code editor on the website didn&#39;t work well on an iPad (in my case iPad Pro 11&#34;) the workflow I did previously worked fine but contained a number of …" />
+<meta name="keywords" content="Python, PyBites, Pythonista">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="New iPadOS and new, improved Pybites exercise workflow"/>
+<meta property="og:description" content="The other day I wrote an article on how I have been working with Pybite exercises on my iPad. Since the code editor on the website didn&#39;t work well on an iPad (in my case iPad Pro 11&#34;) the workflow I did previously worked fine but contained a number of …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.io/blog/new-ipados-and-new-improved-pybites-exercise-workflow/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-09-25 11:58:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="PyBites"/>
+<meta property="article:tag" content="Pythonista"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; New iPadOS and new, improved Pybites exercise workflow</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.io">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+
+<p>Yet Another PyGuy</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.io">    Home
+</a>
+
+        <a href="/archives.html">Archives</a>
+        <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="new-ipados-and-new-improved-pybites-exercise-workflow">New iPadOS and new, improved Pybites exercise workflow</h1>
+    <p>
+          Posted on Wed 25 September 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+
+
+        &#8226; 3 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p>The other day I wrote an article on how I have been working with <a href="https://codechalleng.es/">Pybite exercises</a> on my iPad. Since the code editor on the website didn't work well on an iPad (in my case iPad Pro 11") <a href="/blog/how-i-work-with-pybites-exercises-on-my-ipad/">the workflow I did previously</a> worked fine but contained a number of steps with copying and pasting into the <a href="http://omz-software.com/pythonista/">Pythonista app</a>.</p>
+<p>Yesterday I installed the brand new iPadOS (13.1). I had some suspicions that it would work much better when coding directly in the website's code window. And it turned out to be so. Coding with the on-screen keyboard still had most of the problems I'd seen earlier. But with my external Apple Magic keyboard it seems everything now works fine, and I can do the exercises as intended right on the website. This is really nice!</p>
+<h2>My new workflow</h2>
+<p>Personally, I will probably do most of my Pybite exercises in the Pythonista app still. One reason is that I get features like:</p>
+<ul>
+<li>debugging</li>
+<li>autocomplete</li>
+<li>coding off-line</li>
+</ul>
+<p>But with the new iPadOS even the workflow coding in Pythonista can be improved by using the Pybites GitHub functionality. So here I present the new improved workflow.</p>
+<p>The new Safari on iPadOS now has a download manager, just like on the Mac. It downloads files by default to a folder in you iCloud Drive called Downloads. That made me think that instead of a lot of copying and pasting, that I did before, maybe I could use the PyBites GitHub feature. My Pythonista files is already in a different folder in my iCloud Drive.</p>
+<h2>Getting the exercise files into Pythonista</h2>
+<p>In the first step I go to the Pybite excercise and click on the GitHub button. And then <code>download bite</code>
+<div style="width:image width px; font-size:80%; text-align:center;">
+<img alt="Pybites download bite image" src="https://joeriksson.io/images/pbites_download_bite.jpg">
+Download exercise files for PyBites website
+</div>
+<p>
+In the top right corner of Safari I press the Download Manager button, and can see that the ZIP-file has been downloaded.
+</p>
+<div style="width:image width px; font-size:80%; text-align:center;">
+<img alt="Safari downloads image" src="https://joeriksson.io/images/pbites_downloads.jpg">
+Safari downloads
+</div>
+<p>
+If I click on the downloaded file there, ICloud Drive opens and I can see the ZIP-file in my Downloads folder. Pressing the ZIP-file unpacks it to a folder.
+</p>
+<div style="width:image width px; font-size:80%; text-align:center;">
+<img alt="Icloud Drive unzip image" src="https://joeriksson.io/images/pbites_unzip.jpg">
+Unzip the downloaded file
+</div>
+<p>
+I select the folder in the iCloud Drive and choose Move. Then I browse to my Pythonista bitesofpy folder and choose to move the folder there.
+</p></p>
+<h2>Do the exercise</h2>
+<p>Time to fire up Pythonista and go to the newly downloaded folder, and do the exercise.
+<div style="width:image width px; font-size:80%; text-align:center;">
+<img alt="Pythonisa code image" src="https://joeriksson.io/images/pbites_pythonista.jpg">
+Do the exercise in Pythonista
+</div></p>
+<h2>Submit the code</h2>
+<p>In this workflow it is only one copy/paste. When the tests has passed, I just copy the code from Pythonista and paste it in the exercise code window on the website. Press the <code>Save and run tests</code> button and I'm done! Some new scores on my Dashboard and a step further to my next Ninja Belt!</p>
+<p>Maybe I can get rid of the last copy/paste step with the help of <a href="https://workingcopyapp.com/">Working Copy App</a>. It is something that I might try out in the future.</p>
+<h2>Conclusion</h2>
+<p>The new IPadOS together with a new Safari version has made it much easier to do PyBite exercises on iPad, regardless if you want to code directly on the website or in an editor like Pythonista.</p>
+<p>I hope it also opens up new experiences in the future to other web based coding. Like for instance the upcoming <a href="https://devblogs.microsoft.com/visualstudio/intelligent-productivity-and-collaboration-from-anywhere/">Visual Studio Code Online</a>.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://joeriksson.io/tag/python.html">Python</a>
+      <a href="https://joeriksson.io/tag/pybites.html">PyBites</a>
+      <a href="https://joeriksson.io/tag/pythonista.html">Pythonista</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>    Like this article? Share it with your friends!
+</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.io",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>
