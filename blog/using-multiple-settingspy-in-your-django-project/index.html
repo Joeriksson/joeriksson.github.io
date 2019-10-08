@@ -36,12 +36,12 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="J-O" />
-<meta name="description" content="After going through &#34;Django for professionals&#34; and building the project in there, I started to build a Django project template based of what I learned in the book. The book goes through a development version of the project, and a production version, and it also makes use of Docker to …" />
+<meta name="description" content="After going through &#34;Django for professionals&#34; and building the project in there, I started to build a Django project template based on what I learned from the book. The book goes through a development version of the project, and a production version, and it also makes use of Docker to …" />
 <meta name="keywords" content="Python, Django">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
 <meta property="og:title" content="Using multiple settings.py in your Django project"/>
-<meta property="og:description" content="After going through &#34;Django for professionals&#34; and building the project in there, I started to build a Django project template based of what I learned in the book. The book goes through a development version of the project, and a production version, and it also makes use of Docker to …"/>
+<meta property="og:description" content="After going through &#34;Django for professionals&#34; and building the project in there, I started to build a Django project template based on what I learned from the book. The book goes through a development version of the project, and a production version, and it also makes use of Docker to …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://joeriksson.io/blog/using-multiple-settingspy-in-your-django-project/"/>
 <meta property="og:type" content="article"/>
@@ -118,8 +118,8 @@
 
 
   <div>
-    <p>After going through "Django for professionals" and building the project in there, I started to build a Django project template based of what I learned in the book. The book goes through a development version of the project, and a production version, and it also makes use of Docker to run the web server and PostgreSQL server.</p>
-<p>I realized it would be very useful to have one settings file for development and one for production. For example in development I might note want to send emails via a SMTP service but just print the mail to the console, and in production there would be security settings which would be impractical in development.</p>
+    <p>After going through "Django for professionals" and building the project in there, I started to build a Django project template based on what I learned from the book. The book goes through a development version of the project, and a production version, and it also makes use of Docker to run the web server and PostgreSQL server.</p>
+<p>I realized it would be very useful to have one settings file for development and one for production. For example, in development I might not want to send emails via a SMTP service but just print the mail to the console, and in production there would be security settings which would be impractical in development.</p>
 <p>Another thing I wanted to accomplish was to hide away certain variable (like SECRET_KEY and any passwords) so they wouldn't be pushed to GitHub.</p>
 <p>In this article I'll explain how I set up all those things in my Django project template. You can also find the full code in my <a href="https://github.com/Joeriksson/django-template">Django template repo</a>. It might be useful to use that as a reference when going though this article.</p>
 <h2>Project structure</h2>
@@ -193,7 +193,7 @@
 
 
 <h2>Docker compose</h2>
-<p>Since the <code>manage.py runserver</code> command will have a different parameter depending on if you want to run with development settings or with production settings, I also split up the <code>docker-compose.yml</code> into two different files. The only difference between these two at the moment is the parameters of the <code>runserver</code> command.</p>
+<p>Since the <code>manage.py runserver</code> command will have a different parameter depending on if you want to run it with development settings or with production settings, I also split up the <code>docker-compose.yml</code> into two different files. The only difference between these two at the moment is the parameters of the <code>runserver</code> command.</p>
 <p>You can run a specific docker compose file like this:</p>
 <div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">docker</span><span class="o">-</span><span class="n">compose</span><span class="o">-</span><span class="n">dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span>
 </pre></div>
@@ -208,7 +208,7 @@
 <li>Shut down the container</li>
 <li>Execute a command within the container</li>
 </ul>
-<p>Here is an excerpt if my Makefile:</p>
+<p>Here is an excerpt of my Makefile:</p>
 <div class="highlight"><pre><span></span><span class="nv">dev</span>:
     @<span class="nv">docker</span><span class="o">-</span><span class="nv">compose</span> \
         <span class="o">-</span><span class="nv">f</span> <span class="nv">docker</span><span class="o">-</span><span class="nv">compose</span><span class="o">-</span><span class="nv">dev</span>.<span class="nv">yml</span> \
