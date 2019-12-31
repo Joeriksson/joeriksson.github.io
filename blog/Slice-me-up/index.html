@@ -35,8 +35,8 @@
 </script>
 <!-- End Google Analytics -->
 
-<meta name="author" content="J-O" />
-<meta name="description" content="In my learnings of Python I came to know that there is something called slicing. Given a sequence that you want to get certain sub-elements from, you can more easily get the results you want with slicing, instead of e.g. making a couple of for-loops. Lets start with taking …" />
+<meta name="author" content="J-O"/>
+<meta name="description" content="In my learnings of Python I came to know that there is something called slicing. Given a sequence that you want to get certain sub-elements from, you can more easily get the results you want with slicing, instead of e.g. making a couple of for-loops. Lets start with taking …"/>
 <meta name="keywords" content="Python, Pieces of Py, Slicing">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
@@ -106,20 +106,20 @@
     </nav>
 
 <article class="single">
-  <header>
-      
-    <h1 id="Slice-me-up">Pieces of Py #5 Slice me up</h1>
-    <p>
-          Posted on Tue 17 September 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+    <header>
+        
+        <h1 id="Slice-me-up">Pieces of Py #5 Slice me up</h1>
+        <p>
+                Posted on Tue 17 September 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
-        &#8226; 3 min read
-    </p>
-  </header>
+            &#8226; 3 min read
+        </p>
+    </header>
 
 
-  <div>
-    <p>In my learnings of Python I came to know that there is something called slicing. Given a sequence that you want to get certain sub-elements from, you can more easily get the results you want with slicing, instead of e.g. making a couple of for-loops.</p>
+    <div>
+        <p>In my learnings of Python I came to know that there is something called slicing. Given a sequence that you want to get certain sub-elements from, you can more easily get the results you want with slicing, instead of e.g. making a couple of for-loops.</p>
 <p>Lets start with taking a simple list:</p>
 <div class="highlight"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
 </pre></div>
@@ -143,7 +143,7 @@
 </pre></div>
 
 
-<h2>Syntax</h2>
+<h2 id="syntax">Syntax</h2>
 <p>The syntax for slicing is:</p>
 <p><code>my_list[start:stop:step]</code></p>
 <p>So if stop is omitted you will get the rest of the list. Step is by default 1 if omitted.</p>
@@ -158,7 +158,7 @@
 </pre></div>
 
 
-<h2>Using negative parameters in slicing</h2>
+<h2 id="using-negative-parameters-in-slicing">Using negative parameters in slicing</h2>
 <p>If we put negative numbers for start or stop, it starts counting from the end of the list instead of the beginning, as can be seen in the following example:</p>
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:])</span> <span class="c1"># Get only the last item</span>
 <span class="k">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Get everything except the last item</span>
@@ -170,7 +170,7 @@
 </pre></div>
 
 
-<h2>How does start and stop really work?</h2>
+<h2 id="how-does-start-and-stop-really-work">How does start and stop really work?</h2>
 <p>Next example was a bit confusing for me. When assigning a start value higher than 1 and a stop value less than the length of the list.</p>
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span> <span class="c1"># print the list again for reference</span>
 <span class="k">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
@@ -195,7 +195,7 @@
 <p>When we do <code>my_list[2:4]</code> the start position is 2, which gives the third (0-based) slice position just before number 3 on my_list. So number 3 is included in the result.</p>
 <p>The stop position is given as 4, which gives the slice position after the fourth item (4) on my_list.</p>
 <p>So the slicing gives us back the item after the start slicing position, up until before the stop slice poistion.</p>
-<h2>Using negative steps (reversing the list)</h2>
+<h2 id="using-negative-steps-reversing-the-list">Using negative steps (reversing the list)</h2>
 <p>We can also use a negative value on the step parameter, with the effect that the list is reversed.</p>
 <div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Reverse the list</span>
 </pre></div>
@@ -205,7 +205,7 @@
 </pre></div>
 
 
-<h2>Slicing strings</h2>
+<h2 id="slicing-strings">Slicing strings</h2>
 <p>Slicing can be used on strings as well for example.</p>
 <div class="highlight"><pre><span></span><span class="n">my_string</span> <span class="o">=</span> <span class="s2">&quot;When I find myself in times of trouble&quot;</span>
 
@@ -219,30 +219,30 @@
 </pre></div>
 
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>Python's slicing is a nice way to be able to get sub-elements from e.g. a list, a tuple, a string, or some other sqeuence. At first, it can be a little confusing how the <code>start:stop:step</code> parameters work. </p>
 <p>It helps to think of start and stop as positions between the items in the sequence, instead of the actual positions of the items.</p>
-<h2>Resources</h2>
+<h2 id="resources">Resources</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/509211/understanding-slice-notation#509295">A good explanation of slicing at Stack Overflow</a></li>
 </ul>
 <p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://joeriksson.io/tag/python.html">Python</a>
-      <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
-      <a href="https://joeriksson.io/tag/slicing.html">Slicing</a>
-    </p>
-  </div>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
+            <a href="https://joeriksson.io/tag/slicing.html">Slicing</a>
+        </p>
+    </div>
 
-  <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
 </p>
-    <div class="addthis_native_toolbox"></div>
-    <div class="addthis_sharing_toolbox"></div>
-    <div class="addthis_inline_share_toolbox"></div>
-  </div>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
 
 
     <div class="addthis_relatedposts_inline"></div>

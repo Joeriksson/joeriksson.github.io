@@ -35,8 +35,8 @@
 </script>
 <!-- End Google Analytics -->
 
-<meta name="author" content="J-O" />
-<meta name="description" content="One thing I learned during my first #100DaysOfCode was to use a dict instead of numerous if-statements. In my opinion it can make the code much more readable among other things. Here I&#39;ll try to make an example where this concept could fit in. In this example we create a …" />
+<meta name="author" content="J-O"/>
+<meta name="description" content="One thing I learned during my first #100DaysOfCode was to use a dict instead of numerous if-statements. In my opinion it can make the code much more readable among other things. Here I&#39;ll try to make an example where this concept could fit in. In this example we create a …"/>
 <meta name="keywords" content="Python, Pieces of Py, Dictionary, Lambda, Functools">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
@@ -108,20 +108,20 @@
     </nav>
 
 <article class="single">
-  <header>
-      
-    <h1 id="Use-a-dictionary-instead-of-multiple-if-statements">Pieces of Py #2: Use a dictionary instead of multiple if-statements</h1>
-    <p>
-          Posted on Thu 01 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+    <header>
+        
+        <h1 id="Use-a-dictionary-instead-of-multiple-if-statements">Pieces of Py #2: Use a dictionary instead of multiple if-statements</h1>
+        <p>
+                Posted on Thu 01 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
-        &#8226; 4 min read
-    </p>
-  </header>
+            &#8226; 4 min read
+        </p>
+    </header>
 
 
-  <div>
-    <p>One thing I learned during my first <a href="https://twitter.com/_100DaysOfCode" target="_blank">#100DaysOfCode</a> was to use a dict instead of numerous if-statements. In my opinion it can make the code much more readable among other things. Here I'll try to make an example where this concept could fit in.</p>
+    <div>
+        <p>One thing I learned during my first <a href="https://twitter.com/_100DaysOfCode" target="_blank">#100DaysOfCode</a> was to use a dict instead of numerous if-statements. In my opinion it can make the code much more readable among other things. Here I'll try to make an example where this concept could fit in.</p>
 <p>In this example we create a very simple calculator, that takes three parameters. As you can see we are using standard if-statements here. It could have been if-elses, but I think that makes it even harder to read.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">operator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -168,7 +168,7 @@
 
 
 <p><code>0.5</code></p>
-<h3>Using a dict instead of if-statements</h3>
+<h3 id="using-a-dict-instead-of-if-statements">Using a dict instead of if-statements</h3>
 <p>Let's rewrite the calculate function, get rid of the if-statements and create a dict with out operators as keys, and a function (lamda in this case) as the value. If there had been more complex fuctions, I could have lifted out those to its own functions, and just put the function names as values in the dict.</p>
 <p>But in this case let's go with some lambdas.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">operator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
@@ -236,7 +236,7 @@
 
 
 <p>This was a simple example to replace muliple if-statements with a dict, with keys and functions as values. </p>
-<h2>Using a list of numbers as input</h2>
+<h2 id="using-a-list-of-numbers-as-input">Using a list of numbers as input</h2>
 <p>One thing that hit me when I did this in an exercise, was that the calculate function I did was very limiting. It could only calculate two values. I needed the input to be a list of numbers. How would I accomplish that and still use lambdas? (Of course I could've easily, broken out each lambda to it's own separate function)</p>
 <p>It turns out there was something in the functools library that I could use in this case - <a href="https://docs.python.org/3.7/library/functools.html#functools.reduce" target="_blank">functools.reduce</a>. </p>
 <p>A quote from the functools.reduce documentation:</p>
@@ -279,32 +279,32 @@
 
 
 <p><code>0.041666666666666664</code></p>
-<h3>Conclusion</h3>
+<h3 id="conclusion">Conclusion</h3>
 <p>In this article I've given an easy example on how to use a dictionary instead of multiple if-statements to sort of emulate a switch/case statement. Since Python dictionaries can take almost anything as values for different keys, we used a function as the value which we then used to calculate numbers.</p>
-<h3>Resources</h3>
+<h3 id="resources">Resources</h3>
 <ul>
 <li><a href="https://realpython.com/courses/emulating-switch-case-python/" target="_blank">Emulating switch/case Statements in Python (Real Python)</a></li>
 <li><a href="https://docs.python.org/3.7/library/functools.html" target="_blank">Functools -- Higher-order functions and operations on callable objects (Python Documentation)</a> </li>
 </ul>
 <p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://joeriksson.io/tag/python.html">Python</a>
-      <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
-      <a href="https://joeriksson.io/tag/dictionary.html">Dictionary</a>
-      <a href="https://joeriksson.io/tag/lambda.html">Lambda</a>
-      <a href="https://joeriksson.io/tag/functools.html">Functools</a>
-    </p>
-  </div>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
+            <a href="https://joeriksson.io/tag/dictionary.html">Dictionary</a>
+            <a href="https://joeriksson.io/tag/lambda.html">Lambda</a>
+            <a href="https://joeriksson.io/tag/functools.html">Functools</a>
+        </p>
+    </div>
 
-  <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
 </p>
-    <div class="addthis_native_toolbox"></div>
-    <div class="addthis_sharing_toolbox"></div>
-    <div class="addthis_inline_share_toolbox"></div>
-  </div>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
 
 
     <div class="addthis_relatedposts_inline"></div>

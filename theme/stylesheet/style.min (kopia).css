@@ -111,7 +111,7 @@ aside nav ul li {
 }
 
 main nav {
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     font-size: .72em;
     padding: 14px 0;

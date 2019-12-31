@@ -35,8 +35,8 @@
 </script>
 <!-- End Google Analytics -->
 
-<meta name="author" content="J-O" />
-<meta name="description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They are: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from scratch, in a way …" />
+<meta name="author" content="J-O"/>
+<meta name="description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They are: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from scratch, in a way …"/>
 <meta name="keywords" content="Python, Code Journal, Flask">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
@@ -106,20 +106,20 @@
     </nav>
 
 <article class="single">
-  <header>
-      
-    <h1 id="code-journal-r2d5-100-days-of-code-2019-08-30">Code Journal R2D5 100 Days of Code 2019-08-30</h1>
-    <p>
-          Posted on Fri 30 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+    <header>
+        
+        <h1 id="code-journal-r2d5-100-days-of-code-2019-08-30">Code Journal R2D5 100 Days of Code 2019-08-30</h1>
+        <p>
+                Posted on Fri 30 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
-        &#8226; 3 min read
-    </p>
-  </header>
+            &#8226; 3 min read
+        </p>
+    </header>
 
 
-  <div>
-    <p>The first couple of days of this second round of <a href="https://www.100daysofcode.com">#100DaysOfCode</a> I went through almost all the Flask tutorials in <a href="https://training.talkpython.fm/courses/details/100-days-of-web-in-python">#100DaysOfWeb in Python)</a> . They are:</p>
+    <div>
+        <p>The first couple of days of this second round of <a href="https://www.100daysofcode.com">#100DaysOfCode</a> I went through almost all the Flask tutorials in <a href="https://training.talkpython.fm/courses/details/100-days-of-web-in-python">#100DaysOfWeb in Python)</a> . They are:</p>
 <ul>
 <li>Flask Intro</li>
 <li>Calling APIs in Flask</li>
@@ -133,10 +133,10 @@
 <li>Link (optional link to e.g. a repo or commit)</li>
 </ul>
 <p>So, today I set up the basic structure of the app. Used a somewhat different structure than from the tutorials. And also I use Flask Blueprints.</p>
-<h3>Project Structure</h3>
+<h3 id="project-structure">Project Structure</h3>
 <p>The project structure I’ve done today, looks like this:</p>
 <p><img alt="Projec Structure" src="https://joeriksson.io/images/code-diary-structure.png"></p>
-<h3>Models</h3>
+<h3 id="models">Models</h3>
 <p>This is how I made the models.</p>
 <p><em>User model:</em></p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
@@ -190,7 +190,7 @@
 </pre></div>
 
 
-<h3>Migrations</h3>
+<h3 id="migrations">Migrations</h3>
 <p>I am also using Flask-Migrate in the project to be able to easily handle any changes in the models. For that I’ve made an <code>manage.py</code> in the root of the project that I can call for different operations, for example:</p>
 <ul>
 <li>Python manage.py db init</li>
@@ -225,7 +225,7 @@
 </pre></div>
 
 
-<h3>Gotcha’s</h3>
+<h3 id="gotchas">Gotcha’s</h3>
 <p>I managed to put the <code>logout_user</code> function from Flask-Login into my own function that I happened to call <code>logout_user</code> and got a nasty recursion error. Changed the name of my function to get it to work.</p>
 <div class="highlight"><pre><span></span><span class="nd">@user_blueprint.route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
@@ -235,26 +235,26 @@
 </pre></div>
 
 
-<h3>Next step</h3>
+<h3 id="next-step">Next step</h3>
 <p>Tomorrow I will start to implement the views and functionality for the Diary model.</p>
-<h3>Conclusion</h3>
+<h3 id="conclusion">Conclusion</h3>
 <p>A simple Flask App can be as simple as a few files. But when starting to split the parts in a structure with folders for models, views and adding Flask extensions etc, there’s a lot of connections between the parts to get your head around in my opinion. But when the structure is in place it is probably easier to manage when the project grows.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://joeriksson.io/tag/python.html">Python</a>
-      <a href="https://joeriksson.io/tag/code-journal.html">Code Journal</a>
-      <a href="https://joeriksson.io/tag/flask.html">Flask</a>
-    </p>
-  </div>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/code-journal.html">Code Journal</a>
+            <a href="https://joeriksson.io/tag/flask.html">Flask</a>
+        </p>
+    </div>
 
-  <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
 </p>
-    <div class="addthis_native_toolbox"></div>
-    <div class="addthis_sharing_toolbox"></div>
-    <div class="addthis_inline_share_toolbox"></div>
-  </div>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
 
 
     <div class="addthis_relatedposts_inline"></div>

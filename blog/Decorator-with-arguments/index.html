@@ -35,8 +35,8 @@
 </script>
 <!-- End Google Analytics -->
 
-<meta name="author" content="J-O" />
-<meta name="description" content="This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this: @mydecorator(my_argument) def my_decorated_function(input): return input A simple scenario could be that you would like to print something …" />
+<meta name="author" content="J-O"/>
+<meta name="description" content="This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this: @mydecorator(my_argument) def my_decorated_function(input): return input A simple scenario could be that you would like to print something …"/>
 <meta name="keywords" content="Python, Pieces of Py, Decorator">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
@@ -106,20 +106,20 @@
     </nav>
 
 <article class="single">
-  <header>
-      
-    <h1 id="Decorator-with-arguments">Pieces of Py #1: Decorator with arguments</h1>
-    <p>
-          Posted on Tue 09 July 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+    <header>
+        
+        <h1 id="Decorator-with-arguments">Pieces of Py #1: Decorator with arguments</h1>
+        <p>
+                Posted on Tue 09 July 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
-        &#8226; 3 min read
-    </p>
-  </header>
+            &#8226; 3 min read
+        </p>
+    </header>
 
 
-  <div>
-    <p>This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this:</p>
+    <div>
+        <p>This post is a simple example which explains how to create a decorator function that accepts and uses argument(s). A decorator that would accept an argument could look like this:</p>
 <div class="highlight"><pre><span></span><span class="nd">@mydecorator</span><span class="p">(</span><span class="n">my_argument</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_decorated_function</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">input</span>
@@ -139,7 +139,7 @@
 <p>-------------------</p>
 <p>Hello, World!</p>
 <p>-------------------</p>
-<h3>A decorator without argument(s)</h3>
+<h3 id="a-decorator-without-arguments">A decorator without argument(s)</h3>
 <p>Let's first look at a decorator without input arguments as a reference. It's usually done by creating a decorator function, with a function as an input argument. So the function you decorate will be the input to the decorator function. </p>
 <p>Then a wrapper function is created within the decorator function that does some work. The decorator function then returns the wrapper function with some modified functionality as in the following example. Here I've put the incoming function into the result variable, and returning an f-string with that variable included.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
@@ -165,7 +165,7 @@
 </pre></div>
 
 
-<h3>A decorator with an argument</h3>
+<h3 id="a-decorator-with-an-argument">A decorator with an argument</h3>
 <p>But what if we don't want to hard code, in this case the text that is added to the output, and rather want to control that by adding an argument to the decorator? Well, for me it was very hard to understand how to do that at first, and it took me some googling and brainwork to get the hang of it all.</p>
 <p>We already have a function within a function to do what we already did in the previous example. Now we also need a function, within a function, within a function. Coming from languages as <code>C#</code> and <code>PowerShell</code>, that I'd never seen before. Maybe it exists in those languages as well, but it is all new to me. So the decorator function would look like this.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">input_arg</span><span class="p">):</span>
@@ -197,30 +197,30 @@
 </pre></div>
 
 
-<h3>Conclusion</h3>
+<h3 id="conclusion">Conclusion</h3>
 <p>I hope that in this article I've managed to explain in a simple way, how you can use argument(s) with your decorator functions in Python. </p>
-<h3>Resources</h3>
+<h3 id="resources">Resources</h3>
 <ul>
 <li><a href="https://realpython.com/primer-on-python-decorators/" target="_blank">Primer on Python Decorators - Real Python</a></li>
 <li><a href="https://youtu.be/MjHpMCIvwsY" target="_blank">Reuven M. Lerner - Practical decorators - PyCon 2019</a> (YouTube video)</li>
 </ul>
 <p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://joeriksson.io/tag/python.html">Python</a>
-      <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
-      <a href="https://joeriksson.io/tag/decorator.html">Decorator</a>
-    </p>
-  </div>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
+            <a href="https://joeriksson.io/tag/decorator.html">Decorator</a>
+        </p>
+    </div>
 
-  <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
 </p>
-    <div class="addthis_native_toolbox"></div>
-    <div class="addthis_sharing_toolbox"></div>
-    <div class="addthis_inline_share_toolbox"></div>
-  </div>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
 
 
     <div class="addthis_relatedposts_inline"></div>

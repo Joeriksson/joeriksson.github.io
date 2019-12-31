@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O"/>
+<meta name="description" content="In this article I&#39;ll show you how you can use my Django Template to quickly create and get running a basic Django app. The purpose of the article is not to teach anyone how to create a Django app from start, there are many other great resources out there for …"/>
+<meta name="keywords" content="Python, Django">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="How to get started with my Django template"/>
+<meta property="og:description" content="In this article I&#39;ll show you how you can use my Django Template to quickly create and get running a basic Django app. The purpose of the article is not to teach anyone how to create a Django app from start, there are many other great resources out there for …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.io/blog/how-to-get-started-with-my-django-template/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-12-31 12:43:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Django"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; How to get started with my Django template</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.io">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+
+<p>Yet Another PyGuy</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.io">    Home
+</a>
+
+        <a href="/archives.html">Archives</a>
+        <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+    <header>
+        
+        <h1 id="how-to-get-started-with-my-django-template">How to get started with my Django template</h1>
+        <p>
+                Posted on Tue 31 December 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+
+
+            &#8226; 10 min read
+        </p>
+    </header>
+
+
+    <div>
+        <h2>Table of Contents</h2>
+        <div class="toc">
+            <div class="toc">
+<ul>
+<li><a href="#a-few-words-about-the-template">A few words about the template</a><ul>
+<li><a href="#site-pages">Site Pages</a></li>
+<li><a href="#registerloginlogout">Register/login/logout</a></li>
+<li><a href="#docker-files">Docker files</a></li>
+<li><a href="#makefile-commands">Makefile commands</a></li>
+</ul>
+</li>
+<li><a href="#create-a-new-repository-based-on-my-template">Create a new repository based on my template</a><ul>
+<li><a href="#clone-your-new-repository-to-you-local-machine">Clone your new repository to you local machine</a></li>
+</ul>
+</li>
+<li><a href="#setting-up-the-local-development-environment">Setting up the local development environment</a><ul>
+<li><a href="#quick-start">Quick start</a></li>
+<li><a href="#creating-an-env-file">Creating an .env file</a></li>
+<li><a href="#setting-up-a-project-with-docker">Setting up a project with Docker</a><ul>
+<li><a href="#1-build-the-containers">1. Build the containers</a></li>
+<li><a href="#2-create-a-virtual-environment-and-install-requirements">2. Create a virtual environment and install requirements</a></li>
+<li><a href="#3-create-migrations">3. Create migrations</a></li>
+<li><a href="#4-create-a-superuser">4. Create a superuser</a></li>
+</ul>
+</li>
+<li><a href="#setup-a-project-without-docker">Setup a project without docker</a><ul>
+<li><a href="#1-change-the-project-to-use-sqlite">1. Change the project to use SQLite</a></li>
+<li><a href="#2-create-a-virtual-environment-with-pipenv">2. Create a virtual environment with Pipenv</a></li>
+<li><a href="#3-create-migrations_1">3. Create migrations</a></li>
+<li><a href="#4-check-that-the-project-can-run">4. Check that the project can run</a></li>
+<li><a href="#5-create-a-superuser">5. Create a superuser</a></li>
+</ul>
+</li>
+<li><a href="#tests">Tests</a></li>
+</ul>
+</li>
+<li><a href="#conclusions">Conclusions</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</div>
+        </div>
+        
+<p>In this article I'll show you how you can use my <a href="https://github.com/Joeriksson/django-template">Django Template</a> to quickly create and get running a basic Django app.</p>
+<p>The purpose of the article is not to teach anyone how to create a Django app from start, there are many other great resources out there for that. I have linked to some of them in the references section at the end of this post. If you're new to Django, I encourage you to first learn how to build a Django project from scratch before using any templates.</p>
+<p>The intention of this article is to help you to quickly create a basic Django app with some more batteries already in place. It is also something for myself to refer back to in some of my upcoming Django articles, if people want to code along. I will try to base many of those articles on the app we build here.</p>
+<h2 id="a-few-words-about-the-template">A few words about the template</h2>
+<p>The template is a Django project that I’ve put here on GitHub. After setting up a few Django apps via tutorials I wanted a template with the basics I thought I would need in most of my Django projects.</p>
+<p>Some of the features included are:</p>
+<ul>
+<li>A pages app</li>
+<li>An users app with a custom user model (email instead of username)</li>
+<li>Django debug toolbar (only in development settings)</li>
+<li>Docker files for spinning up containers (python and postgresql)</li>
+<li>Basic tests for pages and users</li>
+<li>Different settings files for development and production</li>
+</ul>
+<p>As you can see I use a docker based environment when developing in Django. But I’ll also talk about how to build the app in this article if you don’t want to use docker. I haven’t tried this docker setup that I have here on any Windows machine yet, so I don’t know how that would work there.</p>
+<h3 id="site-pages">Site Pages</h3>
+<p>The template contains a pages app to hold static pages like Home and About.</p>
+<h3 id="registerloginlogout">Register/login/logout</h3>
+<p>So after setting up a new app with this template, we have a register/login/logout system with email verification built on <a href="https://django-allauth.readthedocs.io/en/latest/">Django-allauth</a>. In the development environment that we’ll be using here the emails will just be printed out to the console, so no need for any SMTP server.</p>
+<h3 id="docker-files">Docker files</h3>
+<p>If you want to use Docker with this template there are three files to help you with that. The only requirement you should need to have on your own machine is <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> At the time of writing this, I have only tried this dockerized environment on Mac.</p>
+<p>There are one Dockerfile and two Docker-Compose files (one for dev and one for prod). We will just be using the dev one in this article.</p>
+<h3 id="makefile-commands">Makefile commands</h3>
+<p>After splitting up the Docker Compose file in a dev and a prod version, I realized that the docker commands became very long. So I created a <a href="https://en.wikipedia.org/wiki/Makefile">Makefile</a> with some common commands that I wanted to use. For example:</p>
+<ul>
+<li>Start the container (will also restart any running container)</li>
+<li>Start and rebuild the container</li>
+<li>Run Django tests within the container</li>
+<li>Run commands from the command line within the container</li>
+</ul>
+<p>Again, I have no idea if it possible to use the Makefile commands on Windows. But if you look at the contents of the Makefile, you can copy/paste the commands from there and use them in any Windows command file.</p>
+<h2 id="create-a-new-repository-based-on-my-template">Create a new repository based on my template</h2>
+<p>My Django template at GitHub is configured as a so called  GitHub "Template Repository". That means, assuming you have a GitHub account, you can go to the following link to create a new project repository in your own GitHub account based on my template:</p>
+<p><a href="https://github.com/Joeriksson/django-template/generate">Create a Django project based on my Django template</a></p>
+<blockquote>
+<p><em>Note</em>: For some reason the link above will give a 404 error if you're not logged into Github.</p>
+</blockquote>
+<p>Choose a Repository name, description and if you want it to be Public or Private.</p>
+<p><img alt="Django template create new repo image" src="https://joeriksson.io/images/django_template/create_new_rep.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Create a new repo based on my template
+</div></p>
+<h3 id="clone-your-new-repository-to-you-local-machine">Clone your new repository to you local machine</h3>
+<p>You should now have your own new repository based on my template in your GitHub account. </p>
+<p>You probably already have a folder on your machine, where you have your code projects. Open your terminal in that folder, or create a new folder for example on your desktop.</p>
+<p>The <code>git clone</code> command that we will do next, will by default create a subfolder within the folder you are located in with your terminal when you run it.
+Next we’ll clone the project to our local machine. You can get the URL to use under the "Clone or download" button in your repository.</p>
+<p><img alt="Django template clone url image" src="https://joeriksson.io/images/django_template/clone_url.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Get the Clone URL
+</div></p>
+<p>Run the following command in your terminal. Replace with your username and repository name.</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/&lt;your github username&gt;/&lt;your repository name&gt;
+</pre></div>
+<p>The project files should now be present in a folder with the same name as your repo name, within the folder where you ran the git clone command.</p>
+<h2 id="setting-up-the-local-development-environment">Setting up the local development environment</h2>
+<p>Since there are many different IDE’s to use when developing in Python, and what you use might be different than mine, I'll use the terminal for setting things up and running with different commands throughout this article.</p>
+<h3 id="quick-start">Quick start</h3>
+<p>If you already have experience  in the techniques in this article, and don’t want to go through step-by-step, you can just follow the instructions from step 3 and forward, here in the <a href="https://github.com/Joeriksson/django-template/blob/master/Readme.md">Readme file</a> from my Django template repository, and then jump to the "Conclusions" section.</p>
+<h3 id="creating-an-env-file">Creating an .env file</h3>
+<p>This project uses a .env file to store certain settings that you don’t want to end up with in your GitHub repository. For example the Django SECRET_KEY, and any username and passwords needed for external dependencies.</p>
+<p>Open the terminal in your newly created project folder and run the following command:</p>
+<div class="highlight"><pre><span></span>touch .env
+</pre></div>
+<p>Use your favorite text editor and type the following parameters into the .env file. </p>
+<blockquote>
+<p><em>Note</em>: We will not be using SENDGRID in this article, so you can just type e.g. abc123 for both username and password. </p>
+</blockquote>
+<p>For SECRET_KEY you can  use the Secret Key generator for example at <a href="https://djskgen.herokuapp.com/">Heroku </a></p>
+<div class="highlight"><pre><span></span><span class="n">SENDGRID_PASSWORD</span><span class="o">=</span><span class="s1">'abc123'</span>
+<span class="n">SENDGRID_USERNAME</span><span class="o">=</span><span class="s1">'abc123'</span>
+<span class="n">SECRET_KEY</span><span class="o">=&lt;</span><span class="n">your</span> <span class="n">secret</span> <span class="k">key</span><span class="o">&gt;</span>
+<span class="n">DEBUG</span><span class="o">=</span><span class="k">True</span>
+</pre></div>
+<p>Save the file. Now we are ready to spin up our dev environment with or without Docker.</p>
+<blockquote>
+<p><em>Note</em>: The .env file is by default included in the templates .gitignore file, so it shouldn’t be included in any git commits. But be sure to check that in your first commit of this project though.</p>
+</blockquote>
+<h3 id="setting-up-a-project-with-docker">Setting up a project with Docker</h3>
+<p><em>(For instructions to setup the development environment without the use of Docker, look further down in this article.)</em></p>
+<p>Setting up this project using Docker is pretty fast, and you don’t need to know much about Docker to get started. Before going through the instructions below you need to install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> on your machine.</p>
+<p>In this Dockerized environment we will be using <a href="https://www.postgresql.org/">PostgreSQL</a> as database. One advantage with Docker is that you don’t need to install this on your machine. We will just use a pre-made image that will be pulled from the repository (via a command in the Docker Compose file). When building this app, you also don’t need to know much about PostgreSQL. It should just work in the container with the commands and settings within the Docker Compose file and Django <code>settings.py</code>.</p>
+<h4 id="1-build-the-containers">1. Build the containers</h4>
+<p>Start by going to your project folder in the terminal. If you’re on a machine that can use Makefile, type the following command:</p>
+<div class="highlight"><pre><span></span>make dev_build
+</pre></div>
+<blockquote>
+<p><em>Note</em>: If you can’t use Makefile on your machine, look within the Makefile and copy the command under the dev_build: section and run it in your terminal.</p>
+</blockquote>
+<p>The <code>make dev_build</code> command will pull down any required docker images not already present on your machine and build the containers described in the <code>docker-compose-dev.yml</code> file. </p>
+<p>If all goes well, the results in your terminal should look something like this:</p>
+<p><img alt="Django template build container results image" src="https://joeriksson.io/images/django_template/make_dev_build.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Building the containers
+</div></p>
+<p>The containers are now up and running. One is running the web, and the other an instance of PostgreSQL.</p>
+<h4 id="2-create-a-virtual-environment-and-install-requirements">2. Create a virtual environment and install requirements</h4>
+<p>To create a virtual environment within our Docker container and install the requirements from the Pipfile, run the following command from your terminal:</p>
+<div class="highlight"><pre><span></span>make dev_web_exec <span class="nv">cmd</span><span class="o">=</span><span class="s1">'pipenv install'</span>
+</pre></div>
+<blockquote>
+<p><em>Note</em>: Again, if you can’t use make commands on your machine, have a look in the Makefile for what command it represents</p>
+</blockquote>
+<p>We now need to restart and rebuild the Docker container. You can do that again by using the following command:</p>
+<div class="highlight"><pre><span></span>make dev_build
+</pre></div>
+<h4 id="3-create-migrations">3. Create migrations</h4>
+<p>Currently there are some migrations that needs to be done to the database. For example the users model. </p>
+<div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">dev_web_exec</span> <span class="n">cmd</span><span class="o">=</span><span class="s1">'python manage.py migrate'</span>
+</pre></div>
+<p>After running this, to check that everything works, check in your browser so that you see a start web page at <code>http://127.0.0.1:8000</code> </p>
+<p><img alt="Django home page image" src="https://joeriksson.io/images/django_template/home_page.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Home page
+</div></p>
+<h4 id="4-create-a-superuser">4. Create a superuser</h4>
+<p>To be able to get into Django Admin and use it, we need to create a superuser.</p>
+<div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">dev_web_exec</span> <span class="n">cmd</span><span class="o">=</span><span class="s1">'python manage.py createsuperuser'</span>
+</pre></div>
+<p>Follow the prompts to choose a username, email and password. To see if it all works go to <code>http://127.0.0.1:8000/admin</code> in your browser and login with the super user account you just created. It should look like this.</p>
+<p><img alt="Django admin image" src="https://joeriksson.io/images/django_template/django_admin.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Django admin
+</div></p>
+<p>We are now ready to create the basic app. Jump to  the "Conclusions" section to get started.</p>
+<h3 id="setup-a-project-without-docker">Setup a project without docker</h3>
+<p>This section describes how to spin up the Django project without using Docker. For simplicity we will also <strong>not</strong> use <code>PostgreSQL</code> since that would require a whole lot of setup outside of the scope of this article, and instead use the simpler <code>SQLite</code>.</p>
+<h4 id="1-change-the-project-to-use-sqlite">1. Change the project to use SQLite</h4>
+<p>To use SQLite instead of PostgreSQL in this project, open the <code>project/settings/base.py</code> file in a text editor and find the following section:</p>
+<div class="highlight"><pre><span></span><span class="c1"># DATABASES = {</span>
+<span class="c1">#     'default': {</span>
+<span class="c1">#         'ENGINE': 'django.db.backends.sqlite3',</span>
+<span class="c1">#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+
+
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'default'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'ENGINE'</span><span class="p">:</span> <span class="s1">'django.db.backends.postgresql'</span><span class="p">,</span>
+        <span class="s1">'NAME'</span><span class="p">:</span> <span class="s1">'postgres'</span><span class="p">,</span>
+        <span class="s1">'USER'</span><span class="p">:</span> <span class="s1">'postgres'</span><span class="p">,</span>
+        <span class="s1">'PASSWORD'</span><span class="p">:</span> <span class="s1">'postgres'</span><span class="p">,</span>
+        <span class="s1">'HOST'</span><span class="p">:</span> <span class="s1">'db'</span><span class="p">,</span>
+        <span class="s1">'PORT'</span><span class="p">:</span> <span class="mi">5432</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>Uncomment the first DATABASES section by removing the # at the start of each line. Delete the second DATABASES section and save the file.</p>
+<h4 id="2-create-a-virtual-environment-with-pipenv">2. Create a virtual environment with Pipenv</h4>
+<p>Open the project folder in your terminal and run:</p>
+<div class="highlight"><pre><span></span>pipenv install
+</pre></div>
+<blockquote>
+<p><em>Note</em>: You might need to install pipenv first by running <code>pip install pipenv</code></p>
+</blockquote>
+<p>This will create a new virtual environment for your project and install the requirements from the Pipfile. To activate the virtual environment use:</p>
+<div class="highlight"><pre><span></span>pipenv shell
+</pre></div>
+<h4 id="3-create-migrations_1">3. Create migrations</h4>
+<p>There are some pending migrations to execute into the database. For example the user model needs to be migrated, as well as some admin models.Currently we actually don’t have any database either. So run the following command to accomplish this:</p>
+<div class="highlight"><pre><span></span>python manage.py migrate
+</pre></div>
+<h4 id="4-check-that-the-project-can-run">4. Check that the project can run</h4>
+<p>Start the project and check that it runs, by running the following command in your terminal:</p>
+<div class="highlight"><pre><span></span>python manage.py runserver ---settings<span class="o">=</span>project.settings.development
+</pre></div>
+<blockquote>
+<p><em>Note</em>: Normally you would just need to run <code>python manage.py runserver</code>. But since this template has split its settings between dev and prod, we need to specify which settings file we want to use with the  <code>--settings</code> parameter.</p>
+</blockquote>
+<p>Check in your browser that you see a start web page at <code>http://127.0.0.1:8000</code> </p>
+<p><img alt="Django home page image" src="https://joeriksson.io/images/django_template/home_page.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Home page
+</div></p>
+<p>If everything works and you see the webpage above, stop the server by pressing <code>CTRL-C</code> in your terminal window.</p>
+<h4 id="5-create-a-superuser">5. Create a superuser</h4>
+<p>To be able to get into Django Admin and use it, we need to create a superuser.</p>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">createsuperuser</span>
+</pre></div>
+<p>Follow the prompts to choose a username, email and password. Spin up the server again.</p>
+<div class="highlight"><pre><span></span>Python manage.py runserver ---settings<span class="o">=</span>project.settings.development
+</pre></div>
+<p>To see that it all works go to <code>http://127.0.0.1:8000/admin</code> in your browser and login with the super user account you just created. You should end up on a web page that looks like this.</p>
+<p><img alt="Django admin page image" src="https://joeriksson.io/images/django_template/django_admin.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Django admin
+</div></p>
+<p>We are now ready to create the basic app. Jump to  the "Creating the basic app" section to get started.</p>
+<h3 id="tests">Tests</h3>
+<p>My Django template contains some basic tests. You can find them in the pages app and the users app in a file called tests.py. To run them, make sure the containers or server is running, and execute the following command:</p>
+<p>Within docker:</p>
+<div class="highlight"><pre><span></span>make dev_test
+</pre></div>
+<p>In an environment without docker:</p>
+<div class="highlight"><pre><span></span>python manage.py <span class="nb">test</span>
+</pre></div>
+<h2 id="conclusions">Conclusions</h2>
+<p>In this article I've showed you how to get started building an Django app based on my Django template, both by using Docker and how to do it without Docker. The template makes it quick to get up and running with a new Django app that has the user account management ready, and possibilities to plugin other providers like GitHub or Google login. Also there is already a separation between development and production settings. So in development you have for instance the <a href="https://django-debug-toolbar.readthedocs.io/en/latest/">Django Debug Toolbar</a>. </p>
+<p>My intention with this article is to have something to refer to in upcoming Django articles, if readers wants to code along and need to quickly have a basic Django app to start with.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://wsvincent.com">William Vincent</a> and his book <a href="https://djangoforprofessionals.com">Django for professionals</a> where I learned most of the things I am using in my template.</li>
+<li><a href="https://django-allauth.readthedocs.io">Django-allauth</a> - Django authentication, registration, account management and more.</li>
+<li><a href="https://docs.djangoproject.com/en/3.0/intro/tutorial01/">Writing your first Django app</a> - tutorial by the Django Project</li>
+<li><a href="https://tutorial.djangogirls.org/en/">Django Girls Tutorial</a></li>
+<li>There is 3 Django courses in TalkPython's <a href="https://training.talkpython.fm/courses/explore_100days_web/100-days-of-web-in-python">100 Days of Web in Python</a></li>
+</ul>
+<p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/django.html">Django</a>
+        </p>
+    </div>
+
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
+</p>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.io",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>

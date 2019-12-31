@@ -35,8 +35,8 @@
 </script>
 <!-- End Google Analytics -->
 
-<meta name="author" content="J-O" />
-<meta name="description" content="In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my …" />
+<meta name="author" content="J-O"/>
+<meta name="description" content="In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my …"/>
 <meta name="keywords" content="Python, Pelican, This website, CircleCI, Netlify">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
@@ -108,23 +108,23 @@
     </nav>
 
 <article class="single">
-  <header>
-      
-    <h1 id="How-I-set-up-and-work-with-this-website">How I set up and work with this website</h1>
-    <p>
-          Posted on Sat 03 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+    <header>
+        
+        <h1 id="How-I-set-up-and-work-with-this-website">How I set up and work with this website</h1>
+        <p>
+                Posted on Sat 03 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
-        &#8226; 6 min read
-    </p>
-  </header>
+            &#8226; 6 min read
+        </p>
+    </header>
 
 
-  <div>
-    <p>In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my devices (iOS and MacOS).</p>
+    <div>
+        <p>In this article I will go through how I set up this website. What my workflow looks like, updating content and configurations. Also how I set up a staging environment and a production environment with automatic builds and deployment. And how I can do almost anything from any of my devices (iOS and MacOS).</p>
 <p>This website is created with the Pelican static site generator. So the public website is only static files (html, css, images etc). I have in previous years had websites on wordpress and squarespace, to name a couple. But now I wanted something very simple without to much functionality, just content. And also I wanted it to be fast.</p>
 <p>Another wish I had, was that it would be low cost. In my scenario the only thing I currently pay for is the domain name.</p>
-<h2>Technologies and services used</h2>
+<h2 id="technologies-and-services-used">Technologies and services used</h2>
 <p><strong>The technologies and services I use for my website are:</strong></p>
 <ul>
 <li><a href="https://blog.getpelican.com/">Pelican (static site generator)</a></li>
@@ -134,37 +134,37 @@
 <li><a href="https://circleci.com/">CircleCI (build and deploy to my production environment)</a></li>
 <li><a href="https://workingcopyapp.com/">Working Copy (iOS app)</a></li>
 </ul>
-<h2>Architectural overview</h2>
+<h2 id="architectural-overview">Architectural overview</h2>
 <p>In this picture you can see a diagram over how the different things in my workflow connects together. One staging branch, and a production (master) branch, which at commits triggers a build on Netlify and CircleCI respectively.</p>
 <p>Later in this article I’ll describe how the builds work and the build scripts for each of the branches.</p>
 <p><img alt="Workflow overview" src="https://joeriksson.io/images/website_workflow.jpg"></p>
-<h2>Local development environment</h2>
+<h2 id="local-development-environment">Local development environment</h2>
 <p>In my case, I don’t actually need a local development environment once I’ve set up the project and pushed it to my private GitHub. Netlify and CircleCI builds automatically depending on which branch I commit to. Still I have a local environment on my MacBook where I can try out certain things and immediately see the results without pushing to github.</p>
-<h3>MacBook</h3>
+<h3 id="macbook">MacBook</h3>
 <p>So, on my MacBook I have a local Git repo which I work on in either PyCharm or Visual Studio code. There is a virtual environment for the project which has Pelican and its dependencies installed.</p>
 <p>After doing any changes, I tell Pelican to generate the static website and I can browse it locally and see the results. Also I can use the following command to make Pelican serve my pages locally, and automatically regenerate the static files when I do changes:</p>
 <p><code>Pelican -r --listen</code></p>
 <p>I do my work on a staging branch which I periodically commit and push to a private GitHub repo. This automatically triggers Netlify to build and serve my site on a anonymous url.</p>
 <p>If I want to go to production, all I have to do is merge the staging branch into master, and CircleCI publishes to my GitHub pages.</p>
-<h3>iPad and iPhone</h3>
+<h3 id="ipad-and-iphone">iPad and iPhone</h3>
 <p>I can work on my private repo on both my iPad and iPhone with the help of the Working Copy App. Working Copy is a Git client app for iOS. With Working Copy I can edit, commit, push, pull etc. It also gives other apps access to the repos. For example, in Working Copy I can choose to open a MarkDown file in Ulysses, BearApp or some other Markdown Editor. When I am finished editing, I just switch back to Working Copy, and the changes are automatically saved into the file in the repo (doesn't work with any app, but Ulysses handles this nicely).</p>
 <p><img alt="Working Copy on iPad" src="https://joeriksson.io/images/Working_copy_ipad.PNG"></p>
 <p>One disadvantage when working on iOS is that I can not directly preview the results of what I’ve done. I first need to commit and push to my staging branch and let it build before I can browse to it in Safari. But for now I don’t see that as a big problem.</p>
-<h2>Building to the staging environment with Netlify</h2>
+<h2 id="building-to-the-staging-environment-with-netlify">Building to the staging environment with Netlify</h2>
 <p>When you setup a project on Netlify, you get the option to connect it to a GitHub repository. I connected a Netlify project to my private repo on GitHub containing the whole Pelican project. The only other configurations I did can be seen in the image below.</p>
 <p><img alt="Netlify settings" src="https://joeriksson.io/images/netlify_settings.jpg"></p>
 <p>I put in the build command, which is just the standard Pelican command. I do have a separate <code>stagingconf.py</code>, which is a copy of the <code>publishconf.py</code> but with the Netlify SiteUrl.</p>
 <p>Also, under Deploy Contexts I've set the staging branch as Production branch, so it only builds from the staging branch.</p>
-<h3>Build script</h3>
+<h3 id="build-script">Build script</h3>
 <p>As seen in the picture above, the build script is just a simple:</p>
 <p><code>pelican content -o output -s stagingconf.py</code></p>
-<h2>Building to the production environment with CircleCI</h2>
+<h2 id="building-to-the-production-environment-with-circleci">Building to the production environment with CircleCI</h2>
 <p>One reason that I choose CircleCI for the production branch, is that I couldn't find an easy way to do what I wanted with Netlify (although I am sure it is possible). I wanted to build the master branch from the private repo, and just publish the static files generated to my public repo (GitHub pages at github.io). So the public repo would not contain anything but the static files.</p>
 <p>I found a build script that did what I wanted after som googling (see Resources below for where I got it). I did some small modifications to the build script. Also you'll find the full build script further down in this article.</p>
 <p>Basically I have just changed the <code>TARGET_REPO</code> parameter, and at the bottom added a workflow so that it only triggers on commits to the master branch, and not on the staging branch.</p>
 <p>As you can see in the script further below, we need to have a GitHub Token in the <code>git -clone</code> command. I store this token in an enviroment variable in CircleCI and are calling it <code>GH_TOKEN</code>.</p>
 <p><img alt="CircleCI Environment Variable" src="https://joeriksson.io/images/CCI_env_var.jpg"></p>
-<h3>Build script</h3>
+<h3 id="build-script_1">Build script</h3>
 <p>I created a <code>config.yml</code> file in a <code>.circleci</code> directory in the root of the private repo with the following content.</p>
 <div class="highlight"><pre><span></span><span class="nv">version</span>: <span class="mi">2</span>
 <span class="nv">jobs</span>:
@@ -244,32 +244,32 @@
 </pre></div>
 
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>I find this setup and workflow works pretty well. It might not be simple compared to hosting on Wordpress when looking at the setup, commiting, building etc. But when writing only text articles with some code samples, there are not a lot of options to get confused by. Also there is currently not any functionality on the website, like for example comments sections (comments can always be done via my Twitter). The Netlify and CircleCI builds works very good in my opinion, and I find hosting the website at GitHub pages serves the webpages really fast.</p>
 <p>As the number of articles increase, I might add some search functionality via a Pelican plugin. I will post more articles in the future on different things I've added or modified in Pelican for my website.</p>
 <p>Let me know via Twitter if you find something is missing in this article, or if you have any question regarding it.</p>
-<h2>Resources</h2>
+<h2 id="resources">Resources</h2>
 <ul>
 <li><a href="https://github.com/andreagrandi/andreagrandi.it/blob/master/.circleci/config.yml">CircleCI build script from Andrea Grandi, which I copied and modified</a></li>
 </ul>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://joeriksson.io/tag/python.html">Python</a>
-      <a href="https://joeriksson.io/tag/pelican.html">Pelican</a>
-      <a href="https://joeriksson.io/tag/this-website.html">This website</a>
-      <a href="https://joeriksson.io/tag/circleci.html">CircleCI</a>
-      <a href="https://joeriksson.io/tag/netlify.html">Netlify</a>
-    </p>
-  </div>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/pelican.html">Pelican</a>
+            <a href="https://joeriksson.io/tag/this-website.html">This website</a>
+            <a href="https://joeriksson.io/tag/circleci.html">CircleCI</a>
+            <a href="https://joeriksson.io/tag/netlify.html">Netlify</a>
+        </p>
+    </div>
 
-  <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
 </p>
-    <div class="addthis_native_toolbox"></div>
-    <div class="addthis_sharing_toolbox"></div>
-    <div class="addthis_inline_share_toolbox"></div>
-  </div>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
 
 
     <div class="addthis_relatedposts_inline"></div>

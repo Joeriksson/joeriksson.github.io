@@ -35,8 +35,8 @@
 </script>
 <!-- End Google Analytics -->
 
-<meta name="author" content="J-O" />
-<meta name="description" content="At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was …" />
+<meta name="author" content="J-O"/>
+<meta name="description" content="At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was …"/>
 <meta name="keywords" content="Python, Pieces of Py, Pandas, CSV, JSON">
 
 <meta property="og:site_name" content="J-O Eriksson's blog"/>
@@ -108,22 +108,22 @@
     </nav>
 
 <article class="single">
-  <header>
-      
-    <h1 id="Clean-up-data-from-csv-and-save-to-json-in-a-simple-way-with-pandas">Pieces of Py #3 Clean up data from csv and save to json in a simple way with pandas</h1>
-    <p>
-          Posted on Mon 05 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+    <header>
+        
+        <h1 id="Clean-up-data-from-csv-and-save-to-json-in-a-simple-way-with-pandas">Pieces of Py #3 Clean up data from csv and save to json in a simple way with pandas</h1>
+        <p>
+                Posted on Mon 05 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
 
 
-        &#8226; 4 min read
-    </p>
-  </header>
+            &#8226; 4 min read
+        </p>
+    </header>
 
 
-  <div>
-    <p>At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was quite many, and some of them contained information that was not useful in the data layer. </p>
+    <div>
+        <p>At work I once had to take a csv file that was exported from a large list in SharePoint, clean it up a bit and export it to a JSON format for importing in to a data layer. The csv file contained all columns in the SharePoint list, which was quite many, and some of them contained information that was not useful in the data layer. </p>
 <p>I could have used to built-in csv library in python, but had read a little bit of pandas and thought it would be faster and easier to use that. Also an opportunity for me to learn a little about pandas.</p>
-<h2>The data file</h2>
+<h2 id="the-data-file">The data file</h2>
 <p>For this example I have generated a representative sample csv with the help of <a href="https://mockaroo.com">mockaroo.com</a>. I've put the data into a file called SERVER_DATA.csv in a data folder. Here is a preview of how the top of the csv file looks.</p>
 <div class="highlight"><pre><span></span><span class="n">id</span><span class="p">;</span><span class="k">server_name</span><span class="p">;</span><span class="n">ip_adress</span><span class="p">;</span><span class="n">mac_address</span><span class="p">;</span><span class="n">misc_info</span><span class="p">;</span><span class="n">status</span><span class="p">;</span><span class="k">size</span>
 <span class="mi">1</span><span class="p">;</span><span class="n">swe_oefg_767</span><span class="p">;</span><span class="mi">28</span><span class="p">.</span><span class="mi">118</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">105</span><span class="p">;</span><span class="n">D8</span><span class="o">-</span><span class="mi">8</span><span class="n">F</span><span class="o">-</span><span class="mi">4</span><span class="n">A</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="n">FA</span><span class="o">-</span><span class="n">E3</span><span class="p">;;</span><span class="n">production</span><span class="p">;</span><span class="n">small</span>
@@ -141,7 +141,7 @@
 </pre></div>
 
 
-<h2>Load the file into a dataframe</h2>
+<h2 id="load-the-file-into-a-dataframe">Load the file into a dataframe</h2>
 <p>At first I load the file into a pandas dataframe (df), and use <code>head()</code> to have a look at the first five rows.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span>
 
@@ -235,7 +235,7 @@
 </table>
 </div>
 
-<h2>Remove columns</h2>
+<h2 id="remove-columns">Remove columns</h2>
 <p>In this case I know that the column <code>misc_info</code> is something that is not needed in the destination database. So I want to remove that column. This is easily done with the  <code>drop()</code> method of the dataframe object. I put in the name of the column (or columns) that I want to remove, into a list.</p>
 <p>After then let's use <code>head()</code> again to see how the data looks.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Remove unwanted columns</span>
@@ -323,7 +323,7 @@
 </table>
 </div>
 
-<h2>Filter out unwanted rows</h2>
+<h2 id="filter-out-unwanted-rows">Filter out unwanted rows</h2>
 <p>The <code>misc_info</code> column is removed. If I look at the status column, there is servers that are no longer in production. I do not want these either in the destination database. So let's filter them out by the following command, and then use <code>head()</code> again.</p>
 <div class="highlight"><pre><span></span><span class="c1"># filter out discontinued servers</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;discontinued&#39;</span><span class="p">]</span>
@@ -408,7 +408,7 @@
 </table>
 </div>
 
-<h2>Export to json</h2>
+<h2 id="export-to-json">Export to json</h2>
 <p>Now the data seems to be clean and ready to export to json. The dataframe has a <code>to_json()</code> method for that task. It can output the data into different formats. (<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html">Look in the pandas documentation for the different formats available</a>). </p>
 <p>I am using the <code>records</code> format to get a list like output.</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="s1">&#39;data/server_data.json&#39;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
@@ -444,34 +444,34 @@
 </pre></div>
 
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>In this article I used <code>pandas</code> to load and clean up a csv file, and then exported it to a json file. All was done in around 6 lines of code. I don't know how many lines of code it would have taken to do this with the build in <code>csv</code> library. But <code>pandas</code> provide some really easy-to-use tools to do work like this on different data files, like <code>csv</code>, <code>excel</code>, <code>json</code> and other formats.</p>
 <p>I am thinking, to do these basic tasks that I've done in this article is so straight-forward, that you really don't need to be a python developer to do it. Any tech-savvy person could do this by using a hosted Jupyter notebook (e.g. <a href="https://notebooks.azure.com">notebooks.azure.com</a>), and it might even be easier than to do it in Excel.</p>
-<h2>Resources</h2>
+<h2 id="resources">Resources</h2>
 <ul>
 <li><a href="https://pandas.pydata.org" target="_blank">Pandas home page</a></li>
 <li><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html" target="_blank">Pandas.read_csv - Pandas documentation</a></li>
 <li><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html?highlight=to_json#pandas.DataFrame.to_json" target="_blank">Pandas.DataFrame.to_json - Pandas documentation</a></li>
 </ul>
 <p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://joeriksson.io/tag/python.html">Python</a>
-      <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
-      <a href="https://joeriksson.io/tag/pandas.html">Pandas</a>
-      <a href="https://joeriksson.io/tag/csv.html">CSV</a>
-      <a href="https://joeriksson.io/tag/json.html">JSON</a>
-    </p>
-  </div>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/pieces-of-py.html">Pieces of Py</a>
+            <a href="https://joeriksson.io/tag/pandas.html">Pandas</a>
+            <a href="https://joeriksson.io/tag/csv.html">CSV</a>
+            <a href="https://joeriksson.io/tag/json.html">JSON</a>
+        </p>
+    </div>
 
-  <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
 </p>
-    <div class="addthis_native_toolbox"></div>
-    <div class="addthis_sharing_toolbox"></div>
-    <div class="addthis_inline_share_toolbox"></div>
-  </div>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
 
 
     <div class="addthis_relatedposts_inline"></div>
