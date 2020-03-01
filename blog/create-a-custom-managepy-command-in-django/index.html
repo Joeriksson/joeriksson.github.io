@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O"/>
+<meta name="description" content="If you used Django you have propbably used its manage.py to execute different things in Django like: python manage.py runserver python manage.py createsuperuser There are a lot of useful commands available built-in that you can use as can be seen in the documentation (django-admin and manage.py …"/>
+<meta name="keywords" content="Python, Django">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="Create a custom manage.py command in Django"/>
+<meta property="og:description" content="If you used Django you have propbably used its manage.py to execute different things in Django like: python manage.py runserver python manage.py createsuperuser There are a lot of useful commands available built-in that you can use as can be seen in the documentation (django-admin and manage.py …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.io/blog/create-a-custom-managepy-command-in-django/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-03-01 11:24:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Django"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; Create a custom manage.py command in Django</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.io">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+
+<p>Passionate Python Developer</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.io">    Home
+</a>
+
+        <a href="/archives.html">Archives</a>
+        <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+    <header>
+        
+        <h1 id="create-a-custom-managepy-command-in-django">Create a custom manage.py command in Django</h1>
+        <p>
+                Posted on Sun 01 March 2020  in <a href="https://joeriksson.io/category/python.html">Python</a>
+
+
+            &#8226; 3 min read
+        </p>
+    </header>
+
+
+    <div>
+        <h2>Table of Contents</h2>
+        <div class="toc">
+            <div class="toc">
+<ul>
+<li><a href="#scenario">Scenario</a></li>
+<li><a href="#django-model">Django Model</a></li>
+<li><a href="#building-our-custom-command">Building our custom command</a><ul>
+<li><a href="#the-command-code">The command code</a></li>
+<li><a href="#execute-our-custom-command">Execute our custom command</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</div>
+        </div>
+        
+<p>If you used Django you have propbably used its manage.py to execute different things in Django like:</p>
+<ul>
+<li><code>python manage.py runserver</code></li>
+<li><code>python manage.py createsuperuser</code></li>
+</ul>
+<p>There are a lot of useful commands available built-in that you can use as can be seen in the documentation (<a href="https://docs.djangoproject.com/en/3.0/ref/django-admin/">django-admin and manage.py</a>). For example:</p>
+<ul>
+<li>dumpdata - export data from an app to JSON or some other format</li>
+<li>loaddata - import data to the database</li>
+<li>migrate - sync the database with the current set of models and migrations</li>
+</ul>
+<p>You can also build your own command for some administrative task you might have. For example if you wanted to have some scheduled maintenance done, you could build such a command and run it with some scheduled job. In this article I’ll show you how you can build your own custom manage.py command to fill data from an API request into your database.</p>
+<p>The full source code for this sample Django app can be found at <a href="https://github.com/Joeriksson/Beers">GitHub</a></p>
+<h2 id="scenario">Scenario</h2>
+<p>Let’s say that we for some reason want to fill a database model we have with some beer data. If you’re interested in beers, you might recall that Brewdog had a series of beers named "Hello, my name is...".</p>
+<p>We will get information of those beers from a free API at <a href="https://punkapi.com">https://punkapi.com</a> </p>
+<p><img alt="Screenshot of beer app" src="https://joeriksson.io/images/custom_manage_command/beers_app.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Preview of the beer data
+</div></p>
+<h2 id="django-model">Django Model</h2>
+<p>In our Django app we build the model for the data:</p>
+<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">Beer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">first_brewed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">'Beer: {self.name}'</span>
+</pre></div>
+<p>We migrate the model into the database.</p>
+<div class="highlight"><pre><span></span>python manage.py makemigrations beers
+
+python manage.py migrate
+</pre></div>
+<h2 id="building-our-custom-command">Building our custom command</h2>
+<p>To add a new command we need to create a folder structure under our apps folder in the project.</p>
+<p>Quote from the <a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/">Django documentation</a></p>
+<blockquote>
+<p>To do this, add a management/commands directory to the application. Django will register a manage.py command for each Python module in that directory whose name doesn’t begin with an underscore</p>
+</blockquote>
+<p>So in this case we create an <code>update_beers.py</code> in the following folder:</p>
+<div class="highlight"><pre><span></span><span class="n">beers</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">models</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">management</span><span class="o">/</span>
+            <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+            <span class="n">commands</span><span class="o">/</span>
+            <span class="n">update_beers</span><span class="p">.</span><span class="n">py</span> 
+</pre></div>
+<h3 id="the-command-code">The command code</h3>
+<p>The command code should include a Command class that sub-classes Djangos BaseCommand. The BaseCommand has one method that needs to be implemented, and that’s the <code>handle</code> method. It will contain the logic of our command.</p>
+<p>The basic structure of the code needed can be seen below.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.core.management</span> <span class="kn">import</span> <span class="n">BaseCommand</span>
+<span class="kn">from</span> <span class="nn">beers.models</span> <span class="kn">import</span> <span class="n">Beer</span>
+
+<span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Command</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">help</span> <span class="o">=</span> <span class="s2">"Update Beer table from punkapi.com"</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+            <span class="c1"># Implement the logic here</span>
+            <span class="k">pass</span>
+</pre></div>
+<p>In this case, where we want to request an API for data that then will be written to the database, we will also use the <a href="https://requests.readthedocs.io/en/master/">requests</a> library. </p>
+<p>The full code for the command could look like this. <em>(It is just for demo purposes. In a real world scenario we would probably not use the name of the beer to query if the beer already exists in the database.)</em> </p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.core.management</span> <span class="kn">import</span> <span class="n">BaseCommand</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">beers.models</span> <span class="kn">import</span> <span class="n">Beer</span>
+
+
+<span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Command</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">help</span> <span class="o">=</span> <span class="s2">"Update Beer table from punkapi.com"</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="c1"># Request data from the beer API</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'https://api.punkapi.com/v2/beers/?beer_name=my_name_is'</span><span class="p">)</span>
+
+        <span class="c1"># Loop through the response</span>
+        <span class="k">for</span> <span class="n">beer</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">beer_row</span> <span class="o">=</span> <span class="n">Beer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">beer</span><span class="p">[</span><span class="s1">'name'</span><span class="p">])</span>
+            <span class="k">except</span> <span class="n">Beer</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+                <span class="n">beer_row</span> <span class="o">=</span> <span class="bp">None</span>
+
+            <span class="k">if</span> <span class="n">beer_row</span><span class="p">:</span>
+                <span class="c1"># Beer already exists - do nothing</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s1">'{beer_row.name} already exists.'</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Add beer to db</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'Create new row'</span><span class="p">)</span>
+                <span class="n">beer_row</span> <span class="o">=</span> <span class="n">Beer</span><span class="p">()</span>
+                <span class="n">beer_row</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">beer</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span>
+                <span class="n">beer_row</span><span class="o">.</span><span class="n">tagline</span> <span class="o">=</span> <span class="n">beer</span><span class="p">[</span><span class="s1">'tagline'</span><span class="p">]</span>
+                <span class="n">beer_row</span><span class="o">.</span><span class="n">first_brewed</span> <span class="o">=</span> <span class="n">beer</span><span class="p">[</span><span class="s1">'first_brewed'</span><span class="p">]</span>
+                <span class="n">beer_row</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">beer</span><span class="p">[</span><span class="s1">'description'</span><span class="p">]</span>
+                <span class="n">beer_row</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'#########################'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'Updated Beer list'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'#########################'</span><span class="p">)</span>
+</pre></div>
+<h3 id="execute-our-custom-command">Execute our custom command</h3>
+<p>Execute our custom command by running:</p>
+<div class="highlight"><pre><span></span>python manage.py update_beers
+</pre></div>
+<p>Which will show the output:</p>
+<p><img alt="Command output of running the command" src="https://joeriksson.io/images/custom_manage_command/running_command.jpg"/>
+<div style="width:image width px; font-size:80%; text-align:center;">
+Output of running the command
+</div></p>
+<p>If all goes well, the API will be requested for data about the beers, and the data will be written to the database.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article I have demonstrated how you can build your own custom manage.py command in Django. The article showed how you can build a custom command to get data from an API via the <code>requests</code> library and store that in the database. </p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/">Writing custom django-admin commands (Django documentation)</a></li>
+<li><a href="https://github.com/Joeriksson/Beers">The full source code of this Beer app at GitHub</a></li>
+</ul>
+<p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/django.html">Django</a>
+        </p>
+    </div>
+
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
+</p>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.io",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>

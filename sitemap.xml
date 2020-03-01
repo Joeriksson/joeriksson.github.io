@@ -5,44 +5,51 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://joeriksson.io/</loc>
-<lastmod>2020-01-01T09:05:22-00:00</lastmod>
+<lastmod>2020-03-01T13:10:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/archives.html</loc>
-<lastmod>2020-01-01T09:05:22-00:00</lastmod>
+<lastmod>2020-03-01T13:10:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/tags.html</loc>
-<lastmod>2020-01-01T09:05:22-00:00</lastmod>
+<lastmod>2020-03-01T13:10:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/categories.html</loc>
-<lastmod>2020-01-01T09:05:22-00:00</lastmod>
+<lastmod>2020-03-01T13:10:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/pages/about/</loc>
-<lastmod>2020-01-01T09:05:18+01:00</lastmod>
+<lastmod>2020-03-01T13:10:48+01:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/</loc>
-<lastmod>2020-01-01T09:05:18+01:00</lastmod>
+<lastmod>2020-03-01T13:10:48+01:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://joeriksson.io/blog/create-a-custom-managepy-command-in-django/</loc>
+<lastmod>2020-03-01T11:24:00+01:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
 </url>
 
 <url>
@@ -124,21 +131,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://joeriksson.io/category/python.html</loc>
-<lastmod>2019-12-31T12:43:00+01:12</lastmod>
+<lastmod>2020-03-01T11:24:00+01:12</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/tag/python.html</loc>
-<lastmod>2019-12-31T12:43:00+01:12</lastmod>
+<lastmod>2020-03-01T11:24:00+01:12</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://joeriksson.io/tag/django.html</loc>
-<lastmod>2019-12-31T12:43:00+01:12</lastmod>
+<lastmod>2020-03-01T11:24:00+01:12</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
