@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O"/>
+<meta name="description" content="This is something I recently stumbled over. A way to reduce the DRY (Don&#39;t repeat yourself) in the models of your Django app. I find myself to almost always have the two same fields in my Django models. Added and edited. Both are DateTimeFields. Added gets the date when the …"/>
+<meta name="keywords" content="Python, Django">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="A model template in your Django app"/>
+<meta property="og:description" content="This is something I recently stumbled over. A way to reduce the DRY (Don&#39;t repeat yourself) in the models of your Django app. I find myself to almost always have the two same fields in my Django models. Added and edited. Both are DateTimeFields. Added gets the date when the …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.io/blog/a-model-template-in-your-django-app/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-03-10 11:24:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Django"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; A model template in your Django app</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.io">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+
+<p>Passionate Python Developer</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.io/pages/about/">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.io">    Home
+</a>
+
+        <a href="/archives.html">Archives</a>
+        <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+    <header>
+        
+        <h1 id="a-model-template-in-your-django-app">A model template in your Django app</h1>
+        <p>
+                Posted on Tue 10 March 2020  in <a href="https://joeriksson.io/category/python.html">Python</a>
+
+
+            &#8226; 3 min read
+        </p>
+    </header>
+
+
+    <div>
+        <h2>Table of Contents</h2>
+        <div class="toc">
+            <div class="toc">
+<ul>
+<li><a href="#creating-an-abstract-base-class-in-django">Creating an abstract base class in Django</a></li>
+<li><a href="#use-the-abstract-class-in-a-django-model-class">Use the abstract class in a Django model class</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</div>
+        </div>
+        
+<p>This is something I recently stumbled over. A way to reduce the DRY (Don't repeat yourself) in the models of your Django app.</p>
+<p>I find myself to almost always have the two same fields in my Django models. Added and edited. Both are <a href="https://docs.djangoproject.com/en/3.0/ref/models/fields/#datetimefield">DateTimeFields</a>. Added gets the date when the row in the database is created, the other will be updated with the current time when the row is updated.</p>
+<p>In this article I'll show you how you can make a kind of template model with these fields included, and inherit from this template model in your other models. That way you don't have to write, or copy/paste those fields for every new model you create.</p>
+<h2 id="creating-an-abstract-base-class-in-django">Creating an abstract base class in Django</h2>
+<p>What is an <a href="https://docs.djangoproject.com/en/3.0/topics/db/models/#abstract-base-classes">Abstract base class</a> in Django? If you check the documentation it reads:</p>
+<blockquote>
+<p>Abstract base classes are useful when you want to put some common information into a number of other models. You write your base class and put <code>abstract=True</code> in the Meta class. This model will then not be used to create any database table. Instead, when it is used as a base class for other models, its fields will be added to those of the child class.</p>
+</blockquote>
+<p>So the added and edited fields can be put in an abstract base class, which will not be put in any database table. But when inheriting from this abstract model in the other models, those fields will be added to the table of those models.</p>
+<p>The abstract class in this scenario can look like this:</p>
+<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">TimeStampedModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="hll">    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+</span><span class="hll">        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+</span></pre></div>
+<p>It is a common Django model that inherits from <code>django.db.models.Model</code>, but in its Meta class we put <code>abstract = True</code></p>
+<h2 id="use-the-abstract-class-in-a-django-model-class">Use the abstract class in a Django model class</h2>
+<p>To make use of this "model template" in one of our models, all we have to do is inherit from the abstract class. For example, in one of my <a href="https://joeriksson.io/blog/create-a-custom-managepy-command-in-django/">previous articles</a> I had a model for Beers, which included an added and edited field. </p>
+<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">Beer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">first_brewed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+<span class="hll">    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">'Beer: {self.name}'</span>
+</pre></div>
+<p>Instead of writing the model as I did there, it can be rewritten like this:</p>
+<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="hll"><span class="k">class</span> <span class="nc">TimeStampedModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class="hll">    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+</span><span class="hll">        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+</span>
+<span class="hll"><span class="k">class</span> <span class="nc">Beer</span><span class="p">(</span><span class="n">TimeStampedModel</span><span class="p">):</span>
+</span>    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">first_brewed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="c1"># added and edited is removed</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">'Beer: {self.name}'</span>
+</pre></div>
+<p>The Beer class now inherits from the <code>TimeStampedModel</code> so there is no need for the added and edited field. It will get those from the parent class. Having multiple models in an app where those two fields are needed, this saves some repeated code.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article I have showed how you can make a kind of model template in your Django app for fields that are common in most of your models in the app. This was just a small toy demo of how it works. Have a look in the documentation (<em>linked below</em>) for further capabilities with these abstract classes</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/3.0/topics/db/models/#abstract-base-classes">Django documentation - Abstract classes</a></li>
+</ul>
+<p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.io/tag/python.html">Python</a>
+            <a href="https://joeriksson.io/tag/django.html">Django</a>
+        </p>
+    </div>
+
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
+</p>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.io",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>
