@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.se/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O"/>
+<meta name="description" content="Handling Periodic Tasks in Django with Celery Intro In your Django app there might be a need to run certain tasks periodically and automatically in the background. Example of such tasks might be: Cleaning up cache Sending e-mail reports/notifications Running nightly maintenance jobs There is no built-in functionality in …"/>
+<meta name="keywords" content="Python, Django">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="Handling Periodic Tasks in Django with Celery"/>
+<meta property="og:description" content="Handling Periodic Tasks in Django with Celery Intro In your Django app there might be a need to run certain tasks periodically and automatically in the background. Example of such tasks might be: Cleaning up cache Sending e-mail reports/notifications Running nightly maintenance jobs There is no built-in functionality in …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.se/drafts/handling-periodic-tasks-in-django-with-celery.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-04-14 11:24:00+02:00"/>
+<meta property="article:modified_time" content="2026-03-31 17:40:16.945523+02:00"/>
+<meta property="article:author" content="https://joeriksson.se/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Django"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; Handling Periodic Tasks in Django with Celery</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.se">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.se">J-O Eriksson</a></h1>
+
+<p>Passionate Python Developer</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.se/pages/about/">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.se">    Home
+</a>
+
+        <a href="/archives.html">Archives</a>
+        <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.se/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+    <header>
+        
+        <h1 id="handling-periodic-tasks-in-django-with-celery">Handling Periodic Tasks in Django with Celery</h1>
+        <p>
+                Posted on Tue 14 April 2020  in <a href="https://joeriksson.se/category/python.html">Python</a>
+
+
+        </p>
+    </header>
+
+
+    <div>
+        <h1 id="handling-periodic-tasks-in-django-with-celery">Handling Periodic Tasks in Django with Celery</h1>
+<h2 id="intro">Intro</h2>
+<p>In your Django app there might be a need to run certain tasks periodically and automatically in the background. Example of such tasks might be:</p>
+<ul>
+<li>Cleaning up cache</li>
+<li>Sending e-mail reports/notifications</li>
+<li>Running nightly maintenance jobs</li>
+</ul>
+<p>There is no built-in functionality in Django to run scheduled tasks. But if we integrate for example Celery and Redis with our app, this can be accomplished. In the following article, we will show you how to set up Django, Celery, and Redis in a Docker container, and use a custom Django-Admin command to run periodic tasks.</p>
+<p><em>Dependencies:</em>
+1. Django v3.0.5
+2. Docker v19.03.8
+3. Python v3.8.0
+4. Celery v4.4.1
+5. Redis v5.0.7</p>
+<h2 id="objectives">Objectives</h2>
+<p>By the end of this tutorial, you should be able to:</p>
+<ol>
+<li>Containerize Django, Celery, and Redis with Docker</li>
+<li>Integrate Celery into a Django app and create tasks</li>
+<li>Write a custom Django-Admin command</li>
+<li>Schedule the command to run periodically </li>
+</ol>
+<h1 id="getting-started">Getting Started</h1>
+<p>Although you will in this article learn how to setup the containers step-by-step, for details on how the workflow between Django, Celery, and Redis works, have a look at <a href="https://testdriven.io/blog/django-and-celery/">Asynchronous Tasks with Django and Celery | TestDriven.io</a></p>
+<p><more to come about getting the code from the repo etc></p>
+<h1 id="dockerize-django-celery-redis">Dockerize Django - Celery - Redis</h1>
+<h2 id="docker">Docker</h2>
+<p>If you haven’t already, install <a href="https://www.docker.com/products/docker-desktop">Docker</a> and add a Dockerfile to the projects root directory.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Pull base image</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.8-slim</span>
+
+<span class="c"># Set env vars</span>
+<span class="k">ENV</span><span class="w"> </span>PYTHONDONTWRITEBYTECODE <span class="m">1</span>
+<span class="k">ENV</span><span class="w"> </span>PYTHONUNBUFFERED <span class="m">1</span>
+
+<span class="c"># Set working dir</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/code</span>
+
+<span class="c"># Install dependencies</span>
+<span class="k">COPY</span><span class="w"> </span>requirements.txt /code/
+<span class="k">RUN</span><span class="w"> </span>python -m pip install --upgrade pip
+<span class="k">RUN</span><span class="w"> </span>python -m pip install -r requirements.txt
+
+<span class="c"># Copy project</span>
+<span class="k">COPY</span><span class="w"> </span>. /code/
+</code></pre></div>
+
+<p>Here we are using an official Docker image for Python 3.8. Then we set two environment  variables:</p>
+<ol>
+<li><code>PYTHONDONTWRITEBYTECODE</code> which prevents Python from writing .pyc files to disc.</li>
+<li><code>PYTHONUNBUFFERED</code> which forces the stdout and stderr streams to be unbuffered.</li>
+</ol>
+<p>Then we copy the requirements.txt to the working directory, upgrade pip, and install the requirements and copy over the whole Django project to the container.</p>
+<h2 id="django">Django</h2>
+<p>To get our Django project to run in the Docker container we will add a <a href="https://docs.docker.com/compose/compose-file/">docker-compose.yml</a> file to the same directory as the Dockerfile.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.7&#39;</span><span class="w"></span>
+
+<span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">web</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">env_file</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.dev</span><span class="w"></span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python /code/manage.py runserver 0.0.0.0:8000</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000:8000</span><span class="w"></span>
+</code></pre></div>
+
+<p>Next create a .env.dev file in the project root with the following variables:</p>
+<div class="highlight"><pre><span></span><code>DEBUG=1
+SECRET_KEY=mysecretkey
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+</code></pre></div>
+
+<p>If you cloned the repo for this article, the <code>settings.py</code> is already setup to read these environment variables. For example:</p>
+<p><code>SECRET_KEY = os.environ.get(‘SECRET_KEY’)</code></p>
+<h2 id="postgres">Postgres</h2>
+<p>To also run our Postgres database in the container let's add a new service (called db) into the docker-compose.yml file.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.7&#39;</span><span class="w"></span>
+
+<span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">web</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">env_file</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env</span><span class="w"></span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python /code/manage.py runserver 0.0.0.0:8000</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000:8000</span><span class="w"></span>
+<span class="c1"># NEW</span><span class="w"></span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">  </span><span class="nt">db</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:12</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data/</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432:5432</span><span class="w"></span>
+<span class="w">      </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=postgres</span><span class="w"></span>
+<span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">postgres_data</span><span class="p">:</span><span class="w"></span>
+</code></pre></div>
+
+<p>For the data in the database to persist after the container is shut down, we bind a volume <code>postgres_data</code> to the ‘/var/lib/postgresql/data/‘ directory in the container.</p>
+<p>Build the new image and spin up the containers:</p>
+<p><code>$ docker-compose up -d —-build</code></p>
+<p>Run the migrations:</p>
+<p><code>$ docker-compose exec web python manage.py migrate —noinput</code></p>
+<p>Check that the volume was created by running:</p>
+<p><code>$ docker volume inspect periodic_tasks_django_postgres_data</code></p>
+<p>Output similar to:</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;CreatedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-04-14T09:37:27Z&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Driver&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Labels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;com.docker.compose.project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;periodic_tasks_django&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;com.docker.compose.version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.25.4&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;com.docker.compose.volume&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgres_data&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Mountpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/var/lib/docker/volumes/periodic_tasks_django_postgres_data/_data&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;periodic_tasks_django_postgres_data&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Options&quot;</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;Scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
+</code></pre></div>
+
+<p>Bring down the containers with:</p>
+<p><code>$ docker-compose down</code></p>
+<h2 id="celery-and-redis">Celery and Redis</h2>
+<p>Add the following to the end of the <code>docker-compose.yml</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">redis</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:alpine</span><span class="w"></span>
+
+<span class="nt">celery</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">env_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env</span><span class="w"></span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">celery -A core worker -l info</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span><span class="w"></span>
+<span class="nt">celery-beat</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">env_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env</span><span class="w"></span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">celery -A core beat -l info</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span><span class="w"></span>
+</code></pre></div>
+
+<p>We also need to update the web service depends_on section:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">web</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">env_file</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env</span><span class="w"></span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python /code/manage.py runserver 0.0.0.0:8000 --settings=core.settings.development</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000:8000</span><span class="w"></span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span><span class="w"> </span><span class="c1"># NEW</span><span class="w"></span>
+</code></pre></div>
+
+<p>The full <code>docker-compose.yml</code> file should now look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.7&#39;</span><span class="w"></span>
+
+<span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">web</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">env_file</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.dev</span><span class="w"></span>
+<span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python /code/manage.py runserver 0.0.0.0:8000 --settings=project.settings.development</span><span class="w"></span>
+<span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000:8000</span><span class="w"></span>
+<span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span><span class="w"></span>
+
+<span class="w">  </span><span class="w w-Error">  </span><span class="nt">db</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:12</span><span class="w"></span>
+<span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data/</span><span class="w"></span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432:5432</span><span class="w"></span>
+<span class="w">        </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=postgres</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">redis</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:alpine</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">celery</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">env_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.dev</span><span class="w"></span>
+<span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">celery -A core worker -l info</span><span class="w"></span>
+<span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">celery-beat</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">env_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.dev</span><span class="w"></span>
+<span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">celery -A core beat -l info</span><span class="w"></span>
+<span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span><span class="w"></span>
+<span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span><span class="w"></span>
+
+<span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">postgres_data</span><span class="p">:</span><span class="w"></span>
+</code></pre></div>
+
+<h1 id="celery-configuration">Celery configuration</h1>
+<p>Before building the new containers we need to configure Celery in our Django app.</p>
+<p>In the core directory, create a <code>celery.py</code> file and add the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;DJANGO_SETTINGS_MODULE&#39;</span><span class="p">,</span> <span class="s1">&#39;core.settings&#39;</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">&#39;core&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config_from_object</span><span class="p">(</span><span class="s1">&#39;django.conf:settings&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;CELERY&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">autodiscover_tasks</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Add the following code to <code>core/__init__.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">.celery</span> <span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">celery_app</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;celery_app&#39;</span><span class="p">,)</span>
+</code></pre></div>
+
+<p>Build the new containers to see that everything works.</p>
+<p><code>$ docker-compose up -d -—build</code></p>
+<p>Take a look at the logs for each service to see that they are ready and without errors.</p>
+<p><code>$ docker-compose logs 'web'</code>
+<code>$ docker-compose logs 'db'</code>
+<code>$ docker-compose logs 'celery'</code>
+<code>$ docker-compose logs 'celery-beat'</code>
+<code>$ docker-compose logs 'redis'</code></p>
+<p>If all went well, we now have 5 containers with different services, and are ready to create a sample task to see that it works as it should.</p>
+<h2 id="create-a-task">Create a task</h2>
+<p>Create a new file <code>core/tasks.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">shared_task</span>
+
+
+<span class="nd">@shared_task</span>
+<span class="k">def</span> <span class="nf">sample_task</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The sample task was run&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="schedule-the-task">Schedule the task</h3>
+<p>At the end of settings.py, add the following code that will schedule <code>sample_task</code> to run once per minute.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">celery.schedules</span> <span class="kn">import</span> <span class="n">crontab</span> 
+<span class="kn">import</span> <span class="nn">core.tasks</span>
+
+<span class="n">CELERY_BEAT_SCHEDULE</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;sample_task&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;core.tasks.sample_task&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;*/1&#39;</span><span class="p">),</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Restart the container to be sure the new settings.py is read.</p>
+<p><code>$ docker-compose down &amp;&amp; docker-compose up -d</code></p>
+<p>Take a look at the celery log in the container.</p>
+<p><code>$ docker-compose logs 'celery'</code></p>
+<p>Every minute you should see a row in the log that ends with ‘A scheduled task just ran’.</p>
+<h1 id="create-a-custom-django-admin-command">Create a custom Django-admin command</h1>
+<p>What is a Django-admin command? In this article we already used a django-admin commands:
+* <code>python manage.py migrate</code></p>
+<p>But Django also gives us the option to create our own custom commands. From the <a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/">Django documentation</a></p>
+<blockquote>
+<p>Custom management commands are especially useful for running standalone scripts or for scripts that are periodically executed from the UNIX crontab or from Windows scheduled tasks control panel.</p>
+</blockquote>
+<p>To create our own custom command, all we have to do is to create a .py file in a <code>management/commands</code> directory.</p>
+<p>Create a new file <code>&lt;appname&gt;/management/commands/my_custom_command.py</code>. The minimal code needed for a command is:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.core.management.base</span> <span class="kn">import</span> <span class="n">BaseCommand</span><span class="p">,</span> <span class="n">CommandError</span>
+
+
+<span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+    <span class="n">help</span> <span class="o">=</span> <span class="s1">&#39;A description of the command&#39;</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="k">pass</span>
+</code></pre></div>
+
+<p>The <code>BaseCommand</code> has a couple of methods that can be overridden. But the only one that is required is the <code>handle</code> method. When we run our custom command this is the code that is going to run.</p>
+<p>We can add a print command to our custom command, so we can test that the command works. Instead of Pythons print statement, we will use stdout.write recommended in the Django documentation.</p>
+<blockquote>
+<p>When you are using management commands and wish to provide console output, you should write to self.stdout and self.stderr, instead of printing to stdout and stderr directly. By using these proxies, it becomes much easier to test your custom command. Note also that you don’t need to end messages with a newline character, it will be added automatically, unless you specify the ending parameter:</p>
+</blockquote>
+<p>Add a <code>self.stdout.write</code> command to our code.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.core.management.base</span> <span class="kn">import</span> <span class="n">BaseCommand</span><span class="p">,</span> <span class="n">CommandError</span>
+
+
+<span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+    <span class="n">help</span> <span class="o">=</span> <span class="s1">&#39;A description of the command&#39;</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;My sample command just ran&#39;</span><span class="p">)</span> <span class="c1"># NEW</span>
+</code></pre></div>
+
+<p>From the command line run:</p>
+<p><code>$ docker-compose exec web python manage.py my_sample_command</code></p>
+<p>You should get an output of 'My sample command just ran'.</p>
+<p><continue describing a command that will mail a report with orders created today which will be scheduled to daily></p>
+<h1 id="next-steps-conclusion">Next Steps / Conclusion</h1>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.se/tag/python.html">Python</a>
+            <a href="https://joeriksson.se/tag/django.html">Django</a>
+        </p>
+    </div>
+
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
+</p>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.se",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>

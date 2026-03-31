@@ -10,15 +10,15 @@
 
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/tag_cloud.css">
  
 
 
-    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+    <link href="https://joeriksson.se/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
 
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
@@ -43,11 +43,11 @@
 <meta property="og:title" content="Code Journal R2D5 100 Days of Code 2019-08-30"/>
 <meta property="og:description" content="The first couple of days of this second round of #100DaysOfCode I went through almost all the Flask tutorials in #100DaysOfWeb in Python) . They are: Flask Intro Calling APIs in Flask Flask Login As an extension to that I wanted to build my own app from scratch, in a way …"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://joeriksson.io/blog/code-journal-r2d5-100-days-of-code-2019-08-30/"/>
+<meta property="og:url" content="https://joeriksson.se/blog/code-journal-r2d5-100-days-of-code-2019-08-30/"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2019-08-30 15:09:00+02:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:modified_time" content="2026-03-31 17:40:16.945523+02:00"/>
+<meta property="article:author" content="https://joeriksson.se/author/j-o.html">
 <meta property="article:section" content="Python"/>
 <meta property="article:tag" content="Python"/>
 <meta property="article:tag" content="Code Journal"/>
@@ -60,10 +60,10 @@
 <body>
   <aside>
     <div>
-      <a href="https://joeriksson.io">
+      <a href="https://joeriksson.se">
         <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
       </a>
-      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+      <h1><a href="https://joeriksson.se">J-O Eriksson</a></h1>
 
 <p>Passionate Python Developer</p>
       <nav>
@@ -78,7 +78,7 @@
           <!-- PAGES -->
             <!-- omit any page tagged with home_page: true from being in the side menu -->
             <!-- omit any page tagged with home_page: true from being in the side menu -->
-              <li><a href="https://joeriksson.io/pages/about/">About</a></li>
+              <li><a href="https://joeriksson.se/pages/about/">About</a></li>
 
         </ul>
       </nav>
@@ -94,14 +94,14 @@
   <main>
 
     <nav>
-      <a href="https://joeriksson.io">    Home
+      <a href="https://joeriksson.se">    Home
 </a>
 
         <a href="/archives.html">Archives</a>
         <a href="/tags.html">Tags</a>
 
 
-      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+      <a href="https://joeriksson.se/feeds/all.rss.xml">    RSS
 </a>
     </nav>
 
@@ -110,10 +110,9 @@
         
         <h1 id="code-journal-r2d5-100-days-of-code-2019-08-30">Code Journal R2D5 100 Days of Code 2019-08-30</h1>
         <p>
-                Posted on Fri 30 August 2019  in <a href="https://joeriksson.io/category/python.html">Python</a>
+                Posted on Fri 30 August 2019  in <a href="https://joeriksson.se/category/python.html">Python</a>
 
 
-            &#8226; 3 min read
         </p>
     </header>
 
@@ -135,47 +134,45 @@
 <p>So, today I set up the basic structure of the app. Used a somewhat different structure than from the tutorials. And also I use Flask Blueprints.</p>
 <h3 id="project-structure">Project Structure</h3>
 <p>The project structure I’ve done today, looks like this:</p>
-<p><img alt="Projec Structure" src="https://joeriksson.io/images/code-diary-structure.png"></p>
+<p><img alt="Projec Structure" src="https://joeriksson.se/images/code-diary-structure.png"></p>
 <h3 id="models">Models</h3>
 <p>This is how I made the models.</p>
 <p><em>User model:</em></p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
 <span class="kn">from</span> <span class="nn">flask_login</span> <span class="kn">import</span> <span class="n">UserMixin</span>
 <span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">db</span>
 
 
 <span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">UserMixin</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">username</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">password</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">firstname</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">lastname</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">firstname</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">lastname</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-    <span class="n">diaries</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">relationship</span><span class="p">(</span><span class="s1">&#39;Diary&#39;</span><span class="p">,</span> <span class="n">backref</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">diaries</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">relationship</span><span class="p">(</span><span class="s1">&#39;Diary&#39;</span><span class="p">,</span> <span class="n">backref</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;User {self.username}&#39;</span>
-</pre></div>
-
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;User </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s1">&#39;</span>
+</code></pre></div>
 
 <p><em>Diary model:</em></p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">db</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">db</span>
 
 
 <span class="k">class</span> <span class="nc">Diary</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">description</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
     <span class="n">link</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">256</span><span class="p">))</span>
-    <span class="n">user_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;user.id&#39;</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;user.id&#39;</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;Diary {self.title}&#39;</span>
-</pre></div>
-
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Diary </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">&#39;</span>
+</code></pre></div>
 
 <p>I’ve implemented almost the same login model as in the Flask Login tutorial mentioned above, but implemented it as a Flask Blueprint which I registered in the global <code>routes.py</code>.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
 <span class="kn">from</span> <span class="nn">app.views.users</span> <span class="kn">import</span> <span class="n">user_blueprint</span>
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">render_template</span>
@@ -184,11 +181,10 @@
 <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">user_blueprint</span><span class="p">,</span> <span class="n">url_prefix</span><span class="o">=</span><span class="s1">&#39;/users&#39;</span><span class="p">)</span>
 
 
-<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <h3 id="migrations">Migrations</h3>
 <p>I am also using Flask-Migrate in the project to be able to easily handle any changes in the models. For that I’ve made an <code>manage.py</code> in the root of the project that I can call for different operations, for example:</p>
@@ -199,7 +195,7 @@
 <li>Python manage.py downgrade</li>
 </ul>
 <p>Manage.py</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
 <span class="kn">from</span> <span class="nn">flask_migrate</span> <span class="kn">import</span> <span class="n">Migrate</span><span class="p">,</span> <span class="n">MigrateCommand</span>
 <span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
 
@@ -214,26 +210,23 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>To run the Flask App i run <code>run.py</code> which only contains this:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
 
 
-<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
-
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 
 <h3 id="gotchas">Gotcha’s</h3>
 <p>I managed to put the <code>logout_user</code> function from Flask-Login into my own function that I happened to call <code>logout_user</code> and got a nasty recursion error. Changed the name of my function to get it to work.</p>
-<div class="highlight"><pre><span></span><span class="nd">@user_blueprint.route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@user_blueprint</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">logout</span><span class="p">():</span>
     <span class="n">logout_user</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <h3 id="next-step">Next step</h3>
 <p>Tomorrow I will start to implement the views and functionality for the Diary model.</p>
@@ -242,9 +235,9 @@
     </div>
     <div class="tag-cloud">
         <p>
-            <a href="https://joeriksson.io/tag/python.html">Python</a>
-            <a href="https://joeriksson.io/tag/code-journal.html">Code Journal</a>
-            <a href="https://joeriksson.io/tag/flask.html">Flask</a>
+            <a href="https://joeriksson.se/tag/python.html">Python</a>
+            <a href="https://joeriksson.se/tag/code-journal.html">Code Journal</a>
+            <a href="https://joeriksson.se/tag/flask.html">Flask</a>
         </p>
     </div>
 
@@ -278,7 +271,7 @@
   "@type" : "Blog",
   "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
   "name": " J-O Eriksson's blog ",
-  "url" : "https://joeriksson.io",
+  "url" : "https://joeriksson.se",
   "image": "/images/logo.jpg",
   "description": "J-O's Thoughts and Writings about Python"
 }

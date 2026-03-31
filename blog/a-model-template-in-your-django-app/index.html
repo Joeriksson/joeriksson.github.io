@@ -10,15 +10,15 @@
 
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/style.min.css">
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/pygments/monokai.min.css">
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="https://joeriksson.io/theme/stylesheet/tag_cloud.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/tag_cloud.css">
  
 
 
-    <link href="https://joeriksson.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+    <link href="https://joeriksson.se/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
 
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
@@ -43,11 +43,11 @@
 <meta property="og:title" content="A model template in your Django app"/>
 <meta property="og:description" content="This is something I recently stumbled over. A way to reduce the DRY (Don&#39;t repeat yourself) in the models of your Django app. Most of the times I find that I have the two same fields in my Django models. Added and edited. Both are DateTimeFields. Added gets the date …"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://joeriksson.io/blog/a-model-template-in-your-django-app/"/>
+<meta property="og:url" content="https://joeriksson.se/blog/a-model-template-in-your-django-app/"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2020-03-10 11:24:00+01:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="https://joeriksson.io/author/j-o.html">
+<meta property="article:modified_time" content="2026-03-31 17:40:16.945523+02:00"/>
+<meta property="article:author" content="https://joeriksson.se/author/j-o.html">
 <meta property="article:section" content="Python"/>
 <meta property="article:tag" content="Python"/>
 <meta property="article:tag" content="Django"/>
@@ -59,10 +59,10 @@
 <body>
   <aside>
     <div>
-      <a href="https://joeriksson.io">
+      <a href="https://joeriksson.se">
         <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
       </a>
-      <h1><a href="https://joeriksson.io">J-O Eriksson</a></h1>
+      <h1><a href="https://joeriksson.se">J-O Eriksson</a></h1>
 
 <p>Passionate Python Developer</p>
       <nav>
@@ -77,7 +77,7 @@
           <!-- PAGES -->
             <!-- omit any page tagged with home_page: true from being in the side menu -->
             <!-- omit any page tagged with home_page: true from being in the side menu -->
-              <li><a href="https://joeriksson.io/pages/about/">About</a></li>
+              <li><a href="https://joeriksson.se/pages/about/">About</a></li>
 
         </ul>
       </nav>
@@ -93,14 +93,14 @@
   <main>
 
     <nav>
-      <a href="https://joeriksson.io">    Home
+      <a href="https://joeriksson.se">    Home
 </a>
 
         <a href="/archives.html">Archives</a>
         <a href="/tags.html">Tags</a>
 
 
-      <a href="https://joeriksson.io/feeds/all.rss.xml">    RSS
+      <a href="https://joeriksson.se/feeds/all.rss.xml">    RSS
 </a>
     </nav>
 
@@ -109,10 +109,9 @@
         
         <h1 id="a-model-template-in-your-django-app">A model template in your Django app</h1>
         <p>
-                Posted on Tue 10 March 2020  in <a href="https://joeriksson.io/category/python.html">Python</a>
+                Posted on Tue 10 March 2020  in <a href="https://joeriksson.se/category/python.html">Python</a>
 
 
-            &#8226; 3 min read
         </p>
     </header>
 
@@ -140,22 +139,22 @@
 </blockquote>
 <p>The added and edited fields can be put in an abstract base class, which will not be put in any database table. So when inheriting from this abstract model in the other models, those fields will be added to the table of those models.</p>
 <p>The abstract class in this scenario can look like this:</p>
-<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># models.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 
 
 <span class="k">class</span> <span class="nc">TimeStampedModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="hll">    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-</span><span class="hll">        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
-</span></pre></div>
+</span><span class="hll">        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
+</span></code></pre></div>
 <p>It is a common Django model that inherits from <code>django.db.models.Model</code>, but in its Meta class we put <code>abstract = True</code></p>
 <h2 id="use-the-abstract-class-in-a-django-model-class">Use the abstract class in a Django model class</h2>
-<p>To make use of this "model template" in one of our models, all we have to do is inherit from the abstract class. For example, in one of my <a href="https://joeriksson.io/blog/create-a-custom-managepy-command-in-django/">previous articles</a> I had a model for Beer, which included an added and edited field. </p>
-<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+<p>To make use of this "model template" in one of our models, all we have to do is inherit from the abstract class. For example, in one of my <a href="https://joeriksson.se/blog/create-a-custom-managepy-command-in-django/">previous articles</a> I had a model for Beer, which included an added and edited field. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># models.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 
@@ -165,24 +164,24 @@
     <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">first_brewed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
-<span class="hll">    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="hll">    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">'Beer: {self.name}'</span>
-</pre></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'Beer: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span>
+</code></pre></div>
 <p>Instead of writing the model as I did there, it can be rewritten like this:</p>
-<div class="highlight"><pre><span></span><span class="c1"># models.py</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># models.py</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 
 
 <span class="hll"><span class="k">class</span> <span class="nc">TimeStampedModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class="hll">    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">edited</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span class="hll">
 </span><span class="hll">    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-</span><span class="hll">        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class="hll">        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
 </span>
 <span class="hll"><span class="k">class</span> <span class="nc">Beer</span><span class="p">(</span><span class="n">TimeStampedModel</span><span class="p">):</span>
 </span>    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -192,8 +191,8 @@
     <span class="c1"># added and edited is removed</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">'Beer: {self.name}'</span>
-</pre></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'Beer: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span>
+</code></pre></div>
 <p>The Beer class now inherits from the <code>TimeStampedModel</code> so there is no need for the added and edited field. It will get those from the parent class. Having multiple models in an app where those two fields are needed, this saves some repeated code.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this article I have showed how you can make a model template in your Django app for fields that are common in most of your models in the app. This was just a small toy demo of how it works. Have a look in the documentation (<em>linked below</em>) for further capabilities with these abstract classes</p>
@@ -205,8 +204,8 @@
     </div>
     <div class="tag-cloud">
         <p>
-            <a href="https://joeriksson.io/tag/python.html">Python</a>
-            <a href="https://joeriksson.io/tag/django.html">Django</a>
+            <a href="https://joeriksson.se/tag/python.html">Python</a>
+            <a href="https://joeriksson.se/tag/django.html">Django</a>
         </p>
     </div>
 
@@ -240,7 +239,7 @@
   "@type" : "Blog",
   "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
   "name": " J-O Eriksson's blog ",
-  "url" : "https://joeriksson.io",
+  "url" : "https://joeriksson.se",
   "image": "/images/logo.jpg",
   "description": "J-O's Thoughts and Writings about Python"
 }

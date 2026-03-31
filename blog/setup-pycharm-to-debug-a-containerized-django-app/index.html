@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://joeriksson.se/theme/stylesheet/tag_cloud.css">
+ 
+
+
+    <link href="https://joeriksson.se/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="J-O Eriksson's blog RSS">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-170671-12', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="J-O"/>
+<meta name="description" content="As soon as I learned how to containerize Django with Docker, it has been a preferred way to run Django in my development environment. One of the advantages it&#39;s given me is that I don&#39;t have to install Posgres or other services on my MacBook. I just put them in …"/>
+<meta name="keywords" content="Python, Django, PyCharm">
+
+<meta property="og:site_name" content="J-O Eriksson's blog"/>
+<meta property="og:title" content="Setup PyCharm to debug a containerized Django app"/>
+<meta property="og:description" content="As soon as I learned how to containerize Django with Docker, it has been a preferred way to run Django in my development environment. One of the advantages it&#39;s given me is that I don&#39;t have to install Posgres or other services on my MacBook. I just put them in …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://joeriksson.se/blog/setup-pycharm-to-debug-a-containerized-django-app/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-04-29 11:24:00+02:00"/>
+<meta property="article:modified_time" content="2026-03-31 17:40:16.945427+02:00"/>
+<meta property="article:author" content="https://joeriksson.se/author/j-o.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Django"/>
+<meta property="article:tag" content="PyCharm"/>
+<meta property="og:image" content="/images/logo.jpg">
+
+  <title>J-O Eriksson's blog &ndash; Setup PyCharm to debug a containerized Django app</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://joeriksson.se">
+        <img src="/images/logo.jpg" alt="J-O Eriksson" title="J-O Eriksson">
+      </a>
+      <h1><a href="https://joeriksson.se">J-O Eriksson</a></h1>
+
+<p>Passionate Python Developer</p>
+      <nav>
+        <ul class="list">
+
+          <!-- LINKS -->
+          <!-- 20190801 Implemented possibility to define if links from LINKS
+                should open in a new window or not. target is added to the for loop -->
+              <li><a href="/blog_index.html">Blog</a></li>
+              <li><a href="/tag/pieces-of-py.html">Pieces of Py articles</a></li>
+
+          <!-- PAGES -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+            <!-- omit any page tagged with home_page: true from being in the side menu -->
+              <li><a href="https://joeriksson.se/pages/about/">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-twitter" href="https://twitter.com/wildvasa" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/joeriksson" target="_blank"><i class="fa fa-github"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://joeriksson.se">    Home
+</a>
+
+        <a href="/archives.html">Archives</a>
+        <a href="/tags.html">Tags</a>
+
+
+      <a href="https://joeriksson.se/feeds/all.rss.xml">    RSS
+</a>
+    </nav>
+
+<article class="single">
+    <header>
+        
+        <h1 id="setup-pycharm-to-debug-a-containerized-django-app">Setup PyCharm to debug a containerized Django app</h1>
+        <p>
+                Posted on Wed 29 April 2020  in <a href="https://joeriksson.se/category/python.html">Python</a>
+
+
+        </p>
+    </header>
+
+
+    <div>
+        <h2>Table of Contents</h2>
+        <div class="toc">
+            <div class="toc">
+<ul>
+<li><a href="#docker-settings-in-pycharm">Docker settings in PyCharm</a></li>
+<li><a href="#setup-a-remote-interpreter">Setup a remote interpreter</a></li>
+<li><a href="#create-a-rundebug-configuration">Create a run/debug configuration</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+        </div>
+        
+<p>As soon as I learned how to containerize Django with Docker, it has been a preferred way to run Django in my development environment. One of the advantages it's given me is that I don't have to install Posgres or other services on my MacBook. I just put them in a container that I take up and down as needed. </p>
+<p>If I am on another computer, I just <code>git clone</code> the project, spin up the containers and are up and running in no time.</p>
+<p>One problem I had with this, was that I didn't know how to debug my apps that ran inside the containers. So there was a lot of "print debugging" and other tricks. As I tried to build apps a little more complex this was a bit annoying.</p>
+<p>At some point I learned that you can setup debugging of Django inside your container. In this article I'll show you how you can do this. I will not go through how to continerize your Django app, assuming you already know how to do that.</p>
+<h1 id="docker-settings-in-pycharm">Docker settings in PyCharm</h1>
+<p>The first step we need to do is to tell PyCharm how to connect to our Docker. To do so open the PyCarm Settings dialog, and find the <code>Build, Execution, Deployment</code> node, and click the <code>+</code> button to create a Docker configuration.</p>
+<p><img alt="PyCharm preferences" src="https://joeriksson.se/images/pycharm_debug_docker/pycharm_preferences.png"/></p>
+<p>For macOS, you select the <code>Docker for Mac</code> options. Then apply the changes.</p>
+<h1 id="setup-a-remote-interpreter">Setup a remote interpreter</h1>
+<p>Now that we got the Docker configuration done, it's time to configure Docker Compose as a remote interpreter. Open the preferences dialog again and select the <code>Project &lt;project name&gt;</code> -&gt; <code>Project Interpreter</code> node on the left hand. Click the gear icon and choose <code>Add</code>.</p>
+<p><img alt="PyCharm preferences interpreter" src="https://joeriksson.se/images/pycharm_debug_docker/pycharm_preferences_2.png"/></p>
+<p>In the next dialog, choose Docker Compose on the left hand, and select the Docker configuration you created in the previous steps in the <code>server</code> field. The <code>Configuration file(s)</code> field should point to your Docker Compose file, and in the <code>Service</code> field choose the web application service in your Docker Compose.</p>
+<p>Any other services you have in your Docker Compose file will also start when we later run the Run/Debug configuration in PyCharm. But it is the web service that the debugger will attach to.</p>
+<p><img alt="Add interpreter" src="https://joeriksson.se/images/pycharm_debug_docker/add_python_interpreter.png"/></p>
+<p>Click <code>OK</code> to apply the changes. Back in the preferences dialog we can now see that the project has a Remote Interpreter.</p>
+<p><img alt="Remote interpreter" src="https://joeriksson.se/images/pycharm_debug_docker/remote_interpreter.png"/></p>
+<p>Close the preferences dialog.</p>
+<h1 id="create-a-rundebug-configuration">Create a run/debug configuration</h1>
+<p>Now that we've configured PyCharm to be able to connect to Docker, and created a Remote Interpreter configuration based on our Docker Compose file, we can create a Run/Debug configuration. Click on the <code>Add configuration...</code> button at the top of the PyCharm window.</p>
+<p><img alt="Add run configuration" src="https://joeriksson.se/images/pycharm_debug_docker/add_configuration.png"/></p>
+<p>Next click the <code>+</code> button and choose <code>Django server</code>.</p>
+<p><img alt="Add run configuration step 2" src="https://joeriksson.se/images/pycharm_debug_docker/add_configuration_2.png"/></p>
+<p>Give the configuration a name. The important thing in this configuration dialog is to set the Host field to <code>0.0.0.0</code>. For some reason it won't work if we set it to for example <code>127.0.0.1</code>.</p>
+<p><img alt="Add run configuration step 3" src="https://joeriksson.se/images/pycharm_debug_docker/add_configuration_3.png"/></p>
+<p>Click <code>OK</code> to save our configuration. We can now see our Run/Debug configuration at the top of the PyCharm window, and the buttons (for run, debug etc) are enabled.</p>
+<p><img alt="The finished run configuration" src="https://joeriksson.se/images/pycharm_debug_docker/run_configuration.png"/></p>
+<p>If we now set breakpoints in our Django project, and press the Debug button next to our Run/Debug configuration that we have created, we can debug our Django project that runs inside the Docker container.</p>
+<p><img alt="Debugging in the Docker container" src="https://joeriksson.se/images/pycharm_debug_docker/debugging.png"/></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this article I've shown you how to setup PyCharm to debug a Django project that runs inside a Docker Container.</p>
+<p>Let me know on Twitter if I can improve this article, or if you have other resources to help out with understanding this topic.</p>
+    </div>
+    <div class="tag-cloud">
+        <p>
+            <a href="https://joeriksson.se/tag/python.html">Python</a>
+            <a href="https://joeriksson.se/tag/django.html">Django</a>
+            <a href="https://joeriksson.se/tag/pycharm.html">PyCharm</a>
+        </p>
+    </div>
+
+    <div class="center social-share">
+        <p>    Like this article? Share it with your friends!
+</p>
+        <div class="addthis_native_toolbox"></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="addthis_inline_share_toolbox"></div>
+    </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d552b4a7091f7df" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "sameAs": ["https://twitter.com/wildvasa", "https://github.com/Joeriksson"],
+  "name": " J-O Eriksson's blog ",
+  "url" : "https://joeriksson.se",
+  "image": "/images/logo.jpg",
+  "description": "J-O's Thoughts and Writings about Python"
+}
+</script>
+
+</body>
+</html>
