@@ -23,17 +23,17 @@
 <li><code>python manage.py runserver</code></li>
 <li><code>python manage.py createsuperuser</code></li>
 </ul>
-<p>There are lots of useful commands available built-in that you can use, as can be seen in the documentation (<a href="https://docs.djangoproject.com/en/3.0/ref/django-admin/">django-admin and manage.py</a>). For example:</p>
+<p>There are lots of useful commands available built-in that you can use, as can be seen in the documentation (<a href="https://docs.djangoproject.com/en/3.0/ref/django-admin/" rel="noopener noreferrer" target="_blank">django-admin and manage.py</a>). For example:</p>
 <ul>
 <li>dumpdata - export data from an app to JSON or some other format</li>
 <li>loaddata - import data to the database</li>
 <li>migrate - sync the database with the current set of models and migrations</li>
 </ul>
 <p>You can also build your own command for some administrative task you might have. For example if you want to have some scheduled maintenance done, you can build such a command and run it with some scheduled job. In this article I’ll show you how you can build your own custom manage.py command to fill data from an API request into your database.</p>
-<p>The full source code for this sample Django app can be found at <a href="https://github.com/Joeriksson/Beers">GitHub</a></p>
+<p>The full source code for this sample Django app can be found at <a href="https://github.com/Joeriksson/Beers" rel="noopener noreferrer" target="_blank">GitHub</a></p>
 <h2 id="scenario">Scenario</h2>
 <p>Let’s say that we for some reason want to fill a database model we have with some beer data. If you’re interested in beer, you might recall that Brewdog had a series of beers named “Hello, my name is…”.</p>
-<p>We will get information about those beers from a free API at <a href="https://punkapi.com">https://punkapi.com</a></p>
+<p>We will get information about those beers from a free API at <a href="https://punkapi.com" rel="noopener noreferrer" target="_blank">https://punkapi.com</a></p>
 <p><img src="/images/custom_manage_command/beers_app.jpg" alt="Screenshot of beer app"></p>
 <div style="width:image width px; font-size:80%; text-align:center;">
 Preview of the beer data
@@ -61,7 +61,7 @@ Preview of the beer data
 <span class="line"><span style="color:#B392F0">python</span><span style="color:#9ECBFF"> manage.py</span><span style="color:#9ECBFF"> migrate</span></span></code></pre>
 <h2 id="building-our-custom-command">Building our custom command</h2>
 <p>To add a new command we need to create a folder structure under our apps folder in the project.</p>
-<p>Quote from the <a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/">Django documentation</a></p>
+<p>Quote from the <a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/" rel="noopener noreferrer" target="_blank">Django documentation</a></p>
 <blockquote>
 <p>To do this, add a management/commands directory to the application. Django will register a manage.py command for each Python module in that directory whose name doesn’t begin with an underscore</p>
 </blockquote>
@@ -90,7 +90,7 @@ Preview of the beer data
 <span class="line"><span style="color:#6A737D">			# Implement the logic here</span></span>
 <span class="line"><span style="color:#F97583">			pass</span></span>
 <span class="line"></span></code></pre>
-<p>In this case, when we want to request an API for data that then will be written to the database, we will also use the <a href="https://requests.readthedocs.io/en/master/">requests</a> library.</p>
+<p>In this case, when we want to request an API for data that then will be written to the database, we will also use the <a href="https://requests.readthedocs.io/en/master/" rel="noopener noreferrer" target="_blank">requests</a> library.</p>
 <p>The full code for the command could look like this. <em>(It is just for demo purposes. In a real world scenario we would probably not use the name of the beer to query if the beer already exists in the database.)</em></p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> django.core.management </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> BaseCommand</span></span>
 <span class="line"></span>
@@ -172,8 +172,8 @@ Output of running the command
 <p>In this article I have demonstrated how you can build your own custom manage.py command in Django. The article shows how you can build a custom command to get data from an API via the <code>requests</code> library and store that in the database.</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/">Writing custom django-admin commands (Django documentation)</a></li>
-<li><a href="https://github.com/Joeriksson/Beers">The full source code of this Beer app at GitHub</a></li>
-<li><a href="https://testdriven.io/blog/django-celery-periodic-tasks/">Handling Periodic Tasks in Django with Celery and Docker</a></li>
+<li><a href="https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/" rel="noopener noreferrer" target="_blank">Writing custom django-admin commands (Django documentation)</a></li>
+<li><a href="https://github.com/Joeriksson/Beers" rel="noopener noreferrer" target="_blank">The full source code of this Beer app at GitHub</a></li>
+<li><a href="https://testdriven.io/blog/django-celery-periodic-tasks/" rel="noopener noreferrer" target="_blank">Handling Periodic Tasks in Django with Celery and Docker</a></li>
 </ul>
 <p>Let me know on Twitter or Mastodon if I can improve this article, or if you have other resources to help out with understanding this topic.</p>  </div> </article> </main> <footer data-astro-cid-sz7xmlte> <div class="footer-inner" data-astro-cid-sz7xmlte> <p class="copyright" data-astro-cid-sz7xmlte>&copy; 2026 J-O Eriksson. Built with Astro.</p> <div class="footer-links" data-astro-cid-sz7xmlte> <a href="/rss.xml" class="footer-link" title="RSS Feed" data-astro-cid-sz7xmlte>RSS</a> <a href="https://twitter.com/wildvasa" target="_blank" rel="noopener noreferrer" class="footer-link" data-astro-cid-sz7xmlte>Twitter</a> <a href="https://fosstodon.org/@Wildvasa" target="_blank" rel="noopener noreferrer me" class="footer-link" data-astro-cid-sz7xmlte>Mastodon</a> <a href="https://github.com/joeriksson" target="_blank" rel="noopener noreferrer" class="footer-link" data-astro-cid-sz7xmlte>GitHub</a> </div> </div> </footer> <script type="module">const r=document.getElementById("reading-progress");r&&window.addEventListener("scroll",()=>{const e=document.documentElement.scrollHeight-window.innerHeight,n=e>0?window.scrollY/e*100:0;r.style.width=`${Math.min(n,100)}%`},{passive:!0});document.querySelectorAll(".prose pre").forEach(e=>{const n=document.createElement("div");n.className="code-wrapper",e.parentNode.insertBefore(n,e),n.appendChild(e);const t=document.createElement("button");t.className="copy-btn",t.textContent="Copy",t.setAttribute("aria-label","Copy code"),n.appendChild(t),t.addEventListener("click",async()=>{const o=e.querySelector("code");o&&(await navigator.clipboard.writeText(o.innerText),t.textContent="Copied!",setTimeout(()=>{t.textContent="Copy"},2e3))})});</script></body></html>
